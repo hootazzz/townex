@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import HomePage from './pages/HomePage';
 import PropertyDetailPage from './pages/PropertyDetailPage';
 import ContactPage from './pages/ContactPage';
+import ServicesPage from './pages/ServicesPage';
 
 function getRoute() {
   return window.location.hash.replace(/^#/, '');
@@ -21,5 +22,6 @@ export default function App() {
 
   if (route.startsWith('property')) return <PropertyDetailPage />;
   if (route === 'contact') return <ContactPage />;
+  if (route === 'services') return <ServicesPage />;
   return <HomePage />;
 }

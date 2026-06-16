@@ -28,9 +28,7 @@ export default function HomePage() {
         <CompanyExpertise />
       </section>
 
-      <section id="services">
-        <Services />
-      </section>
+      <Services />
 
       <CtaBanner />
     </div>
