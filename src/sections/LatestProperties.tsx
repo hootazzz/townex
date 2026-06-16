@@ -163,9 +163,10 @@ export default function LatestProperties() {
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {PROPERTIES.map((p) => (
-              <article
+              <a
                 key={p.title}
-                className="w-[85%] shrink-0 snap-start overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-black/5 transition hover:shadow-lg sm:w-[48%] md:w-[calc((100%-3.5rem)/3)]"
+                href="#property"
+                className="block w-[85%] shrink-0 snap-start overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-black/5 transition hover:shadow-lg sm:w-[48%] md:w-[calc((100%-3.5rem)/3)]"
               >
                 <div className="relative h-56 w-full">
                   <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
@@ -190,7 +191,7 @@ export default function LatestProperties() {
                     {p.price} <span className="text-sm font-semibold">ر.س</span>
                   </div>
                 </div>
-              </article>
+              </a>
             ))}
           </div>
         </div>
