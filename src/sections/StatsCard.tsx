@@ -25,7 +25,7 @@ export default function StatsCard() {
   return (
     <div className="mx-auto max-w-[1400px]">
       {/* MOBILE: single elegant 2x2 section — no cards, hairline dividers, generous space */}
-      <div className="px-6 py-10 md:hidden">
+      <div className="px-6 py-10 lg:hidden">
         <div className="grid grid-cols-2 [direction:ltr]">
           {MOBILE_STATS.map((s, i) => {
             const isRightCol = i % 2 === 1; // 1, 3
@@ -46,7 +46,7 @@ export default function StatsCard() {
       </div>
 
       {/* DESKTOP: single cream card with 5 columns (unchanged) */}
-      <div className="hidden rounded-3xl bg-cream px-10 py-10 shadow-2xl shadow-black/40 md:block">
+      <div className="hidden rounded-3xl bg-cream px-10 py-10 shadow-2xl shadow-black/40 lg:block">
         <div className="grid grid-cols-5">
           {STATS.map(({ Icon, value, label }, i) => {
             const isText = isNaN(parseInt(value.replace('+', '')));

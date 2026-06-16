@@ -12,10 +12,10 @@ const FEATURES: Feature[] = [
 
 export default function FeaturesRow() {
   return (
-    <div className="relative z-20 px-6 pb-10 pt-12 md:-mt-28 md:mb-16 md:px-10 md:pb-0 md:pt-0">
+    <div className="relative z-20 px-6 pb-14 pt-16 lg:-mt-20 lg:mb-20 lg:px-10 lg:pb-0 lg:pt-0">
       <div className="mx-auto max-w-[1500px]">
         {/* MOBILE: minimal 2x2, no cards — generous whitespace, icon stacked above text */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:hidden">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:hidden">
           {FEATURES.map(({ Icon, title, subtitle }) => (
             <div key={title} className="flex flex-col items-center text-center">
               <Icon size={28} strokeWidth={1.4} className="text-gold" />
@@ -26,7 +26,7 @@ export default function FeaturesRow() {
         </div>
 
         {/* DESKTOP: horizontal row with dividers (unchanged) */}
-        <div className="hidden md:flex md:justify-end">
+        <div className="hidden lg:flex lg:justify-end">
           <div className="grid w-full max-w-[1050px] grid-cols-4">
             {FEATURES.map(({ Icon, title, subtitle }, i) => (
               <div

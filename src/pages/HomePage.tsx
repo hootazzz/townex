@@ -15,7 +15,7 @@ export default function HomePage() {
         <Navbar />
         <FeaturesRow />
       </div>
-      <div className="relative px-5 pb-10 md:-mt-12 md:px-10">
+      <div className="relative px-5 pb-10 lg:-mt-12 lg:px-10">
         <StatsCard />
       </div>
       <LatestProperties />
