@@ -7,7 +7,8 @@ const NAV_ITEMS = [
   { label: 'الرئيسية', href: '#home' },
   { label: 'من نحن', href: '#about' },
   { label: 'خدماتنا', href: '#services' },
-  { label: 'مشاريعنا', href: '#offers' },
+  { label: 'مشاريعنا', href: '#about' },
+  { label: 'العروض', href: '#offers' },
   { label: 'تواصل معنا', href: '#contact' },
 ];
 

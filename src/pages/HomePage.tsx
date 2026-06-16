@@ -20,9 +20,7 @@ export default function HomePage() {
         <StatsCard />
       </div>
 
-      <section id="offers">
-        <LatestProperties />
-      </section>
+      <LatestProperties />
 
       <section id="about">
         <CompanyExpertise />
