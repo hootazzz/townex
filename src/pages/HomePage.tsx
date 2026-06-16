@@ -10,18 +10,31 @@ import CtaBanner from '../sections/CtaBanner';
 export default function HomePage() {
   return (
     <div dir="rtl" className="relative min-h-screen w-full overflow-x-hidden bg-cream font-cairo">
-      <div className="relative">
+      <section id="home" className="relative">
         <Hero />
         <Navbar />
         <FeaturesRow />
-      </div>
+      </section>
+
       <div className="relative px-5 pb-10 lg:-mt-12 lg:px-10">
         <StatsCard />
       </div>
-      <LatestProperties />
-      <CompanyExpertise />
-      <Services />
-      <CtaBanner />
+
+      <section id="offers">
+        <LatestProperties />
+      </section>
+
+      <section id="about">
+        <CompanyExpertise />
+      </section>
+
+      <section id="services">
+        <Services />
+      </section>
+
+      <section id="contact">
+        <CtaBanner />
+      </section>
     </div>
   );
 }

@@ -9,7 +9,10 @@ export default function Hero() {
       {/* Background image */}
       <img
         src={VILLA_IMG}
-        alt="Luxury villa"
+        alt=""
+        // @ts-expect-error — fetchpriority isn't in React's IMG type yet
+        fetchpriority="high"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover object-[70%_center] lg:object-center"
       />
 
@@ -40,20 +43,26 @@ export default function Hero() {
 
       {/* MOBILE content — single balanced stack with consistent vertical rhythm */}
       <div className="relative z-10 mx-auto flex max-w-md flex-col items-center px-6 pb-20 pt-24 text-center lg:hidden">
-        <h1 className="font-cairo font-extrabold leading-[1.15] text-white">
+        <h1
+          className="font-cairo font-extrabold leading-[1.15] text-white"
+          style={{ textShadow: '0 2px 12px rgba(0,0,0,.35)' }}
+        >
           <span className="block whitespace-nowrap text-[30px] sm:text-[38px]">شريكك في</span>
           <span className="mt-2 block whitespace-nowrap bg-gradient-to-l from-gold to-gold-light bg-clip-text text-[34px] text-transparent sm:text-[42px]">
             النجاح العقاري
           </span>
         </h1>
 
-        <p className="mt-8 max-w-[320px] text-[14px] leading-[1.85] text-white/85">
+        <p
+          className="mt-8 max-w-[320px] text-[14px] leading-[1.85] text-white/85"
+          style={{ textShadow: '0 2px 12px rgba(0,0,0,.35)' }}
+        >
           تسويق عقاري، إدارة أملاك، تصميم وإشراف هندسي بمعايير احترافية
         </p>
 
         <div className="mt-12 flex w-full flex-col items-center gap-3.5">
           <a
-            href="#contact"
+            href="tel:+966500000000"
             className="inline-flex w-full max-w-[280px] items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-white shadow-lg active:bg-gold-light"
           >
             <Phone size={15} className="rotate-[12deg]" />
@@ -94,7 +103,7 @@ export default function Hero() {
               <span>استعرض العروض</span>
             </a>
             <a
-              href="#contact"
+              href="tel:+966500000000"
               className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-[14px] font-semibold text-white shadow-lg transition hover:bg-gold-light"
             >
               <Phone size={15} className="rotate-[12deg]" />

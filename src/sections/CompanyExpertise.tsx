@@ -36,7 +36,13 @@ export default function CompanyExpertise() {
         {/* Image left (DOM order: text first → visual RIGHT in RTL; image second → visual LEFT) */}
         <div className="px-5 md:order-2 md:px-0">
           <div className="overflow-hidden rounded-2xl shadow-xl">
-            <img src={OFFICE_IMG} alt="مكتب تاونكس" className="h-[420px] w-full object-cover md:h-[480px]" />
+            <img
+              src={OFFICE_IMG}
+              alt="مكتب تاونكس"
+              loading="lazy"
+              decoding="async"
+              className="h-[420px] w-full object-cover md:h-[480px]"
+            />
           </div>
         </div>
 

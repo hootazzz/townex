@@ -11,6 +11,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 
 type Property = {
+  id: string;
   badge: string;
   title: string;
   location: string;
@@ -21,6 +22,7 @@ type Property = {
 
 const PROPERTIES: Property[] = [
   {
+    id: 'villa-narjis-01',
     badge: 'للبيع',
     title: 'فيلا فاخرة',
     location: 'الرياض - النرجس',
@@ -34,6 +36,7 @@ const PROPERTIES: Property[] = [
     ],
   },
   {
+    id: 'building-rawda-02',
     badge: 'للبيع',
     title: 'عمارة سكنية',
     location: 'جدة - الروضة',
@@ -47,6 +50,7 @@ const PROPERTIES: Property[] = [
     ],
   },
   {
+    id: 'land-north-riyadh-03',
     badge: 'فرصة استثمارية',
     title: 'أرض تجارية',
     location: 'شمال الرياض',
@@ -86,6 +90,25 @@ export default function LatestProperties() {
     setActiveIndex(next);
     scrollToIndex(next);
   };
+
+  // Keyboard navigation when the carousel region is focused
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        // In RTL, ArrowRight = previous
+        e.preventDefault();
+        go('prev');
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        go('next');
+      }
+    };
+    track.addEventListener('keydown', onKey);
+    return () => track.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex]);
 
   // Update active dot when user swipes/scrolls
   useEffect(() => {
@@ -159,17 +182,28 @@ export default function LatestProperties() {
           {/* Scrollable, snap-aligned track. On desktop each card is ~33.33% wide so three are visible; on smaller screens we show one or two. */}
           <div
             ref={trackRef}
+            role="region"
+            aria-label="قائمة العروض العقارية"
+            aria-roledescription="carousel"
+            tabIndex={0}
             className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2 md:gap-7 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             style={{ scrollSnapType: 'x mandatory' }}
           >
             {PROPERTIES.map((p) => (
               <a
-                key={p.title}
-                href="#property"
-                className="block w-[85%] shrink-0 snap-start overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-black/5 transition hover:shadow-lg sm:w-[48%] md:w-[calc((100%-3.5rem)/3)]"
+                key={p.id}
+                href={`#property/${p.id}`}
+                aria-label={`عرض تفاصيل ${p.title} في ${p.location}`}
+                className="block w-[85%] shrink-0 snap-start overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-black/5 transition hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold sm:w-[48%] md:w-[calc((100%-3.5rem)/3)]"
               >
                 <div className="relative h-56 w-full">
-                  <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
+                  <img
+                    src={p.image}
+                    alt={`${p.title} — ${p.location}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
                   <span className="absolute right-4 top-4 rounded-md bg-ink/85 px-3 py-1 text-xs font-semibold text-gold backdrop-blur">
                     {p.badge}
                   </span>

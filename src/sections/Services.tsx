@@ -58,7 +58,13 @@ export default function Services() {
               className="overflow-hidden rounded-2xl bg-cream shadow-sm ring-1 ring-black/5 transition hover:shadow-md"
             >
               <div className="h-44 w-full overflow-hidden">
-                <img src={image} alt={title} className="h-full w-full object-cover" />
+                <img
+                  src={image}
+                  alt={title}
+                  loading="lazy"
+                  decoding="async"
+                  className="h-full w-full object-cover"
+                />
               </div>
               <div className="relative px-6 pb-7 pt-10 text-center">
                 <span className="absolute right-1/2 top-0 flex h-14 w-14 -translate-y-1/2 translate-x-1/2 items-center justify-center rounded-full bg-gold text-white shadow-md">

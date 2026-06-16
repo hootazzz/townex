@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   ArrowRight,
   Share2,
@@ -133,16 +133,24 @@ const SIMILAR = [
 export default function PropertyDetailPage() {
   const [active, setActive] = useState(0);
 
+  useEffect(() => {
+    const previous = document.title;
+    document.title = 'فيلا فاخرة في النرجس — تاونكس';
+    return () => {
+      document.title = previous;
+    };
+  }, []);
+
   return (
     <div dir="rtl" className="bg-cream font-cairo text-ink">
       {/* Top bar */}
       <header className="border-b border-black/5 bg-white">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 md:px-10">
-          <a href="#" className="text-2xl font-extrabold tracking-wide text-ink">
+          <a href="#home" className="text-2xl font-extrabold tracking-wide text-ink">
             TOWN<span className="text-gold">X</span>
           </a>
           <a
-            href="#"
+            href="#offers"
             className="inline-flex items-center gap-1 text-sm font-semibold text-ink/70 hover:text-gold"
           >
             <span>العودة للعروض</span>
@@ -157,7 +165,8 @@ export default function PropertyDetailPage() {
           <div className="relative overflow-hidden rounded-2xl">
             <img
               src={GALLERY[active]}
-              alt="عرض رئيسي"
+              alt="فيلا فاخرة في النرجس — العرض الرئيسي"
+              decoding="async"
               className="h-[320px] w-full object-cover md:h-[520px]"
             />
             <span className="absolute right-5 top-5 rounded-md bg-ink/85 px-3 py-1.5 text-xs font-bold text-gold backdrop-blur">
@@ -183,7 +192,9 @@ export default function PropertyDetailPage() {
               >
                 <img
                   src={src}
-                  alt={`صورة ${i + 1}`}
+                  alt={`صورة ${i + 1} من العقار`}
+                  loading="lazy"
+                  decoding="async"
                   className="h-20 w-full object-cover md:h-[122px]"
                 />
               </button>
@@ -353,20 +364,26 @@ export default function PropertyDetailPage() {
                 </a>
                 <a
                   href="https://wa.me/966500000000"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] py-3 text-sm font-bold text-white transition hover:brightness-110"
                 >
                   <MessageCircle size={16} />
                   <span>واتساب</span>
                 </a>
                 <a
-                  href="#viewing"
+                  href="https://wa.me/966500000000?text=أرغب%20بطلب%20معاينة%20لـ%20فيلا%20فاخرة%20في%20النرجس"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full border border-ink/70 py-3 text-sm font-bold text-ink transition hover:bg-ink/5"
                 >
                   <CalendarCheck size={16} />
                   <span>طلب معاينة</span>
                 </a>
                 <a
-                  href="#consult"
+                  href="https://wa.me/966500000000?text=أرغب%20بطلب%20استشارة%20مجانية"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full border border-gold py-3 text-sm font-bold text-gold transition hover:bg-gold/10"
                 >
                   <Lightbulb size={16} />
@@ -397,11 +414,18 @@ export default function PropertyDetailPage() {
             {SIMILAR.map((p) => (
               <a
                 key={p.title}
-                href="#"
-                className="block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition hover:shadow-md"
+                href={`#property/similar-${p.title}`}
+                aria-label={`عرض ${p.title} في ${p.location}`}
+                className="block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold"
               >
                 <div className="h-48 w-full overflow-hidden">
-                  <img src={p.image} alt={p.title} className="h-full w-full object-cover" />
+                  <img
+                    src={p.image}
+                    alt={`${p.title} — ${p.location}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg font-bold">{p.title}</h3>
@@ -424,6 +448,8 @@ export default function PropertyDetailPage() {
         <img
           src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=2400&q=80"
           alt=""
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-ink/80" />
@@ -435,7 +461,7 @@ export default function PropertyDetailPage() {
             تواصل معنا الآن للحصول على التفاصيل الكاملة أو حجز زيارة ميدانية.
           </p>
           <a
-            href="#contact"
+            href="tel:+966500000000"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3.5 text-[15px] font-semibold text-white shadow-lg transition hover:bg-gold-light"
           >
             <Phone size={16} className="rotate-[12deg]" />

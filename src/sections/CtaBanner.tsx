@@ -6,7 +6,13 @@ const BANNER_IMG =
 export default function CtaBanner() {
   return (
     <section className="relative overflow-hidden">
-      <img src={BANNER_IMG} alt="" className="absolute inset-0 h-full w-full object-cover" />
+      <img
+        src={BANNER_IMG}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        className="absolute inset-0 h-full w-full object-cover"
+      />
       <div className="absolute inset-0 bg-ink/80" />
 
       <div className="relative z-10 mx-auto max-w-[1100px] px-5 py-20 text-center md:py-24">
@@ -17,7 +23,7 @@ export default function CtaBanner() {
           تواصل معنا اليوم ودعنا نساعدك في تحقيق أهدافك العقارية
         </p>
         <a
-          href="#contact"
+          href="tel:+966500000000"
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3.5 text-[15px] font-semibold text-white shadow-lg transition hover:bg-gold-light"
         >
           <Phone size={16} className="rotate-[12deg]" />
