@@ -12,19 +12,34 @@ const FEATURES: Feature[] = [
 
 export default function FeaturesRow() {
   return (
-    <div className="relative z-20 -mt-28 mb-16 px-5 md:px-10">
+    <div className="relative z-20 mt-6 px-5 pb-2 md:-mt-28 md:mb-16 md:px-10">
       <div className="mx-auto max-w-[1500px]">
-        <div className="flex justify-end">
-          {/* In RTL, justify-end pushes block to the visual LEFT */}
-          <div className="grid w-full max-w-[1050px] grid-cols-2 gap-y-8 md:grid-cols-4 md:gap-y-0">
+        {/* MOBILE: 2x2 grid of self-contained cards on cream */}
+        <div className="grid grid-cols-2 gap-3 md:hidden">
+          {FEATURES.map(({ Icon, title, subtitle }) => (
+            <div
+              key={title}
+              className="flex flex-col items-center gap-2 rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-black/5"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/10 text-gold">
+                <Icon size={22} strokeWidth={1.6} />
+              </span>
+              <div className="text-[13px] font-bold text-ink">{title}</div>
+              <div className="text-[11px] leading-[1.5] text-ink/65">{subtitle}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* DESKTOP: horizontal row with dividers (unchanged) */}
+        <div className="hidden md:flex md:justify-end">
+          <div className="grid w-full max-w-[1050px] grid-cols-4">
             {FEATURES.map(({ Icon, title, subtitle }, i) => (
               <div
                 key={title}
-                className={`flex items-center gap-3 px-3 md:px-6 ${
-                  i !== FEATURES.length - 1 ? 'md:border-l md:border-ink/15' : ''
+                className={`flex items-center gap-3 px-6 ${
+                  i !== FEATURES.length - 1 ? 'border-l border-ink/15' : ''
                 }`}
               >
-                {/* Text first (DOM) → visual RIGHT in RTL; Icon second → visual LEFT */}
                 <div className="text-right">
                   <div className="text-[14px] font-bold text-ink">{title}</div>
                   <div className="mt-0.5 text-[11px] text-ink/70">{subtitle}</div>

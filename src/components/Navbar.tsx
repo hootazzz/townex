@@ -12,7 +12,13 @@ const NAV_ITEMS: { label: string; active?: boolean }[] = [
 export default function Navbar() {
   return (
     <header className="absolute inset-x-0 top-0 z-30">
-      <div className="mx-auto flex max-w-[1500px] items-center justify-between px-5 py-6 md:px-10 md:py-7">
+      {/* Mobile: logo centered only */}
+      <div className="flex items-center justify-center px-5 pt-6 md:hidden">
+        <Logo className="h-12 w-auto" />
+      </div>
+
+      {/* Desktop: full nav */}
+      <div className="mx-auto hidden max-w-[1500px] items-center justify-between px-5 py-6 md:flex md:px-10 md:py-7">
         {/* Logo first in DOM → visual RIGHT in RTL */}
         <Logo className="h-14 w-auto md:h-16" />
 

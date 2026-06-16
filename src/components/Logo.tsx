@@ -2,7 +2,7 @@ type Props = { className?: string };
 
 export default function Logo({ className }: Props) {
   return (
-    <div className={`flex flex-col items-end leading-none ${className ?? ''}`}>
+    <div className={`flex flex-col items-center leading-none md:items-end ${className ?? ''}`}>
       <div className="text-3xl font-extrabold tracking-[0.04em] text-white md:text-[34px]">
         TOWN<span className="text-gold">X</span>
       </div>
