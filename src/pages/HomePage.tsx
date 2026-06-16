@@ -32,9 +32,7 @@ export default function HomePage() {
         <Services />
       </section>
 
-      <section id="contact">
-        <CtaBanner />
-      </section>
+      <CtaBanner />
     </div>
   );
 }
