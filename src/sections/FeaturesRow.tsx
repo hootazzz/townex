@@ -12,20 +12,15 @@ const FEATURES: Feature[] = [
 
 export default function FeaturesRow() {
   return (
-    <div className="relative z-20 mt-6 px-5 pb-2 md:-mt-28 md:mb-16 md:px-10">
+    <div className="relative z-20 px-6 pb-10 pt-12 md:-mt-28 md:mb-16 md:px-10 md:pb-0 md:pt-0">
       <div className="mx-auto max-w-[1500px]">
-        {/* MOBILE: 2x2 grid of self-contained cards on cream */}
-        <div className="grid grid-cols-2 gap-3 md:hidden">
+        {/* MOBILE: minimal 2x2, no cards — generous whitespace, icon stacked above text */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:hidden">
           {FEATURES.map(({ Icon, title, subtitle }) => (
-            <div
-              key={title}
-              className="flex flex-col items-center gap-2 rounded-2xl bg-white p-4 text-center shadow-sm ring-1 ring-black/5"
-            >
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-gold/10 text-gold">
-                <Icon size={22} strokeWidth={1.6} />
-              </span>
-              <div className="text-[13px] font-bold text-ink">{title}</div>
-              <div className="text-[11px] leading-[1.5] text-ink/65">{subtitle}</div>
+            <div key={title} className="flex flex-col items-center text-center">
+              <Icon size={28} strokeWidth={1.4} className="text-gold" />
+              <div className="mt-3 text-[14px] font-bold tracking-wide text-ink">{title}</div>
+              <div className="mt-1 text-[11.5px] leading-[1.6] text-ink/55">{subtitle}</div>
             </div>
           ))}
         </div>
