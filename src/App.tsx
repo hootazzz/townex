@@ -4,6 +4,7 @@ import PropertyDetailPage from './pages/PropertyDetailPage';
 import ContactPage from './pages/ContactPage';
 import ServicesPage from './pages/ServicesPage';
 import PropertiesPage from './pages/PropertiesPage';
+import AboutPage from './pages/AboutPage';
 
 function getRoute() {
   return window.location.hash.replace(/^#/, '');
@@ -25,5 +26,6 @@ export default function App() {
   if (route === 'contact') return <ContactPage />;
   if (route === 'services') return <ServicesPage />;
   if (route === 'offers') return <PropertiesPage />;
+  if (route === 'about') return <AboutPage />;
   return <HomePage />;
 }

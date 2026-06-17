@@ -23,9 +23,7 @@ export default function HomePage() {
 
       <LatestProperties />
 
-      <section id="about">
-        <CompanyExpertise />
-      </section>
+      <CompanyExpertise />
 
       <Services />
 
