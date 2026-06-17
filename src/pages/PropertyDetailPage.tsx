@@ -20,22 +20,10 @@ import {
   UtensilsCrossed,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import Footer from '../components/Footer';
+import { getProperty, getSimilar, LISTING_LABEL, PROPERTIES, type Property } from '../data/properties';
 
-const GALLERY = [
-  'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1800&q=80',
-  'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80',
-  'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=900&q=80',
-];
-
-const QUICK_FACTS: { Icon: LucideIcon; label: string; value: string }[] = [
-  { Icon: Maximize, label: 'المساحة', value: '450 م²' },
-  { Icon: BedDouble, label: 'غرف النوم', value: '7' },
-  { Icon: Bath, label: 'دورات المياه', value: '7' },
-  { Icon: Car, label: 'مواقف السيارات', value: '3' },
-  { Icon: Home, label: 'نوع العقار', value: 'فيلا' },
-];
+const TEL = '+966500000000';
 
 const AMENITIES = [
   'مسبح خاص',
@@ -50,17 +38,6 @@ const AMENITIES = [
   'إنترنت فايبر',
   'مدخل خاص',
   'سطح خاص',
-];
-
-const SPECS: { label: string; value: string }[] = [
-  { label: 'سنة البناء', value: '2024' },
-  { label: 'حالة العقار', value: 'جاهز للسكن' },
-  { label: 'عدد الأدوار', value: 'دورين + ملحق' },
-  { label: 'الواجهة', value: 'شمالية' },
-  { label: 'عرض الشارع', value: '20 م' },
-  { label: 'نظام الكهرباء', value: 'منفصل' },
-  { label: 'نظام التدفئة', value: 'مركزي' },
-  { label: 'صك العقار', value: 'إلكتروني' },
 ];
 
 const NEARBY: { Icon: LucideIcon; label: string; items: { name: string; dist: string }[] }[] = [
@@ -106,44 +83,65 @@ const NEARBY: { Icon: LucideIcon; label: string; items: { name: string; dist: st
   },
 ];
 
-const SIMILAR = [
-  {
-    title: 'فيلا حديثة',
-    location: 'الرياض - الياسمين',
-    price: '2,650,000',
-    image:
-      'https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    title: 'دوبلكس فاخر',
-    location: 'الرياض - حطين',
-    price: '3,100,000',
-    image:
-      'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=900&q=80',
-  },
-  {
-    title: 'فيلا عصرية',
-    location: 'الرياض - الملقا',
-    price: '2,950,000',
-    image:
-      'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&w=900&q=80',
-  },
-];
+function getIdFromHash(): string {
+  // Hash format: #property/<id>
+  const hash = window.location.hash.replace(/^#/, '');
+  return hash.startsWith('property/') ? hash.slice('property/'.length) : '';
+}
+
+function formatPrice(n: number) {
+  return new Intl.NumberFormat('en-US').format(n);
+}
 
 export default function PropertyDetailPage() {
-  const [active, setActive] = useState(0);
+  const [id, setId] = useState<string>(() => getIdFromHash());
+
+  useEffect(() => {
+    const onHash = () => setId(getIdFromHash());
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  const property = getProperty(id) || PROPERTIES[0];
 
   useEffect(() => {
     const previous = document.title;
-    document.title = 'فيلا فاخرة في النرجس — تاونكس';
+    document.title = `${property.title} — تاونكس`;
     return () => {
       document.title = previous;
     };
-  }, []);
+  }, [property.title]);
+
+  const gallery = property.gallery || [property.image];
+  const [active, setActive] = useState(0);
+  // Reset active gallery image when navigating between properties
+  useEffect(() => setActive(0), [property.id]);
+
+  const quickFacts: { Icon: LucideIcon; label: string; value: string }[] = [
+    { Icon: Maximize, label: 'المساحة', value: `${property.area} م²` },
+    ...(property.rooms ? [{ Icon: BedDouble, label: 'غرف النوم', value: String(property.rooms) }] : []),
+    ...(property.baths ? [{ Icon: Bath, label: 'دورات المياه', value: String(property.baths) }] : []),
+    ...(property.parking ? [{ Icon: Car, label: 'الإضافات', value: property.parking }] : []),
+    { Icon: Home, label: 'نوع العقار', value: property.type },
+  ];
+
+  const specs: { label: string; value: string }[] = [
+    { label: 'سنة البناء', value: property.yearBuilt || '—' },
+    { label: 'حالة العقار', value: LISTING_LABEL[property.listing] },
+    { label: 'نوع العقار', value: property.type },
+    { label: 'المساحة', value: `${property.area} م²` },
+    ...(property.rooms ? [{ label: 'عدد الغرف', value: String(property.rooms) }] : []),
+    ...(property.baths ? [{ label: 'دورات المياه', value: String(property.baths) }] : []),
+    ...(property.usage ? [{ label: 'الاستخدام', value: property.usage }] : []),
+    { label: 'المدينة', value: property.city },
+  ];
+
+  const similar = getSimilar(property.id, 3);
+
+  const phoneMsg = `أرغب%20بطلب%20معاينة%20لـ%20${encodeURIComponent(property.title)}`;
 
   return (
     <div dir="rtl" className="bg-cream font-cairo text-ink">
-      {/* Top bar */}
       <header className="border-b border-black/5 bg-white">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 md:px-10">
           <a href="#home" className="text-2xl font-extrabold tracking-wide text-ink">
@@ -164,42 +162,56 @@ export default function PropertyDetailPage() {
         <section className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_320px]">
           <div className="relative overflow-hidden rounded-2xl">
             <img
-              src={GALLERY[active]}
-              alt="فيلا فاخرة في النرجس — العرض الرئيسي"
+              src={gallery[active]}
+              alt={`${property.title} — عرض رئيسي`}
               decoding="async"
               className="h-[320px] w-full object-cover md:h-[520px]"
             />
             <span className="absolute right-5 top-5 rounded-md bg-ink/85 px-3 py-1.5 text-xs font-bold text-gold backdrop-blur">
-              للبيع
+              {LISTING_LABEL[property.listing]}
             </span>
             <button
               type="button"
               className="absolute left-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/95 shadow-md ring-1 ring-black/5 hover:bg-gold/10"
               aria-label="مشاركة"
+              onClick={() => {
+                if (navigator.share) {
+                  navigator
+                    .share({
+                      title: property.title,
+                      url: window.location.href,
+                    })
+                    .catch(() => {});
+                } else if (navigator.clipboard) {
+                  navigator.clipboard.writeText(window.location.href).catch(() => {});
+                }
+              }}
             >
               <Share2 size={16} className="text-ink/80" />
             </button>
           </div>
-          <div className="grid grid-cols-4 gap-2 md:grid-cols-1">
-            {GALLERY.slice(0, 4).map((src, i) => (
-              <button
-                key={i}
-                type="button"
-                onClick={() => setActive(i)}
-                className={`overflow-hidden rounded-xl ring-2 transition ${
-                  active === i ? 'ring-gold' : 'ring-transparent hover:ring-gold/50'
-                }`}
-              >
-                <img
-                  src={src}
-                  alt={`صورة ${i + 1} من العقار`}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-20 w-full object-cover md:h-[122px]"
-                />
-              </button>
-            ))}
-          </div>
+          {gallery.length > 1 && (
+            <div className="grid grid-cols-4 gap-2 md:grid-cols-1">
+              {gallery.slice(0, 4).map((src, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setActive(i)}
+                  className={`overflow-hidden rounded-xl ring-2 transition ${
+                    active === i ? 'ring-gold' : 'ring-transparent hover:ring-gold/50'
+                  }`}
+                >
+                  <img
+                    src={src}
+                    alt={`صورة ${i + 1} من ${property.title}`}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-20 w-full object-cover md:h-[122px]"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
         </section>
 
         <div className="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px] lg:gap-12">
@@ -208,18 +220,23 @@ export default function PropertyDetailPage() {
             <section className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 md:p-8">
               <div className="flex flex-wrap items-start justify-between gap-4">
                 <div>
-                  <h1 className="text-2xl font-extrabold text-ink md:text-3xl">فيلا فاخرة في النرجس</h1>
+                  <h1 className="text-2xl font-extrabold text-ink md:text-3xl">{property.title}</h1>
                   <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-ink/65">
                     <MapPin size={14} className="text-gold" />
-                    <span>الرياض - حي النرجس</span>
+                    <span>
+                      {property.city} - {property.district}
+                    </span>
                   </p>
                 </div>
                 <div className="text-left">
                   <div className="text-3xl font-extrabold text-gold">
-                    2,850,000 <span className="text-base font-semibold">ر.س</span>
+                    {formatPrice(property.price)} <span className="text-base font-semibold">ر.س</span>
                   </div>
-                  <span className="mt-1 inline-block rounded-md bg-gold/10 px-2.5 py-1 text-xs font-bold text-gold">
-                    جاهز للسكن
+                  {property.priceSuffix && (
+                    <div className="mt-0.5 text-xs text-ink/55">{property.priceSuffix}</div>
+                  )}
+                  <span className="mt-2 inline-block rounded-md bg-gold/10 px-2.5 py-1 text-xs font-bold text-gold">
+                    {LISTING_LABEL[property.listing]}
                   </span>
                 </div>
               </div>
@@ -229,7 +246,7 @@ export default function PropertyDetailPage() {
             <section>
               <h2 className="mb-4 text-xl font-bold">معلومات سريعة</h2>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-5">
-                {QUICK_FACTS.map(({ Icon, label, value }) => (
+                {quickFacts.map(({ Icon, label, value }) => (
                   <div
                     key={label}
                     className="rounded-xl bg-white p-4 text-center shadow-sm ring-1 ring-black/5"
@@ -247,11 +264,10 @@ export default function PropertyDetailPage() {
               <h2 className="mb-4 text-xl font-bold">وصف العقار</h2>
               <div className="rounded-2xl bg-white p-6 leading-[2] text-ink/80 shadow-sm ring-1 ring-black/5 md:p-8">
                 <p>
-                  فيلا فاخرة بتشطيبات راقية في أحد أرقى أحياء شمال الرياض، تتميز بتصميم معماري عصري ومساحات داخلية واسعة تلبي احتياجات العائلة الكبيرة.
-                  الفيلا مكونة من دورين وملحق علوي، مع مدخلين منفصلين للرجال والنساء وحديقة خاصة ومسبح.
+                  {property.title} — عقار مميز يقع في {property.city} - {property.district}, بمساحة {property.area}م² وبتشطيبات راقية تلبي ذوق المستثمرين والعملاء المهتمين بالعقارات ذات الجودة العالية.
                 </p>
                 <p className="mt-4">
-                  تقع الفيلا على شارع رئيسي بعرض 20 متراً، وبالقرب من المدارس والمستشفيات والمساجد، مع سهولة الوصول للطرق السريعة والمراكز التجارية الكبرى.
+                  تتميز المنطقة بقربها من المرافق الحيوية وسهولة الوصول للطرق السريعة والمراكز التجارية الكبرى، وتعد فرصة استثمارية مميزة بمواصفات مدروسة بعناية.
                 </p>
               </div>
             </section>
@@ -271,12 +287,12 @@ export default function PropertyDetailPage() {
               </div>
             </section>
 
-            {/* 6. Property Specifications */}
+            {/* 6. Specifications */}
             <section>
               <h2 className="mb-4 text-xl font-bold">المواصفات التفصيلية</h2>
               <div className="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5">
                 <dl className="grid grid-cols-1 divide-y divide-black/5 sm:grid-cols-2 sm:divide-y-0">
-                  {SPECS.map((s, i) => (
+                  {specs.map((s, i) => (
                     <div
                       key={s.label}
                       className={`flex items-center justify-between gap-4 px-6 py-4 ${
@@ -296,7 +312,7 @@ export default function PropertyDetailPage() {
               <h2 className="mb-4 text-xl font-bold">الموقع على الخريطة</h2>
               <div className="overflow-hidden rounded-2xl shadow-sm ring-1 ring-black/5">
                 <iframe
-                  title="موقع العقار"
+                  title={`موقع ${property.title}`}
                   src="https://www.google.com/maps?q=24.8247,46.6280&z=14&output=embed"
                   className="block h-[360px] w-full border-0"
                   loading="lazy"
@@ -305,7 +321,9 @@ export default function PropertyDetailPage() {
               </div>
               <p className="mt-3 inline-flex items-center gap-1.5 text-sm text-ink/65">
                 <MapPin size={14} className="text-gold" />
-                <span>حي النرجس، شمال الرياض</span>
+                <span>
+                  {property.district}، {property.city}
+                </span>
               </p>
             </section>
 
@@ -338,7 +356,7 @@ export default function PropertyDetailPage() {
             </section>
           </div>
 
-          {/* Sidebar: 10. Company Contact (no agent) */}
+          {/* 10. Company Contact sidebar */}
           <aside className="space-y-6 lg:sticky lg:top-6 lg:self-start">
             <div className="rounded-2xl bg-white p-6 text-center shadow-md ring-1 ring-black/5">
               <div className="text-3xl font-extrabold tracking-wide">
@@ -356,14 +374,14 @@ export default function PropertyDetailPage() {
 
               <div className="mt-5 space-y-2.5">
                 <a
-                  href="tel:+966500000000"
+                  href={`tel:${TEL}`}
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-gold py-3 text-sm font-bold text-white transition hover:bg-gold-light"
                 >
                   <Phone size={16} className="rotate-[12deg]" />
                   <span>اتصل بنا</span>
                 </a>
                 <a
-                  href="https://wa.me/966500000000"
+                  href={`https://wa.me/966500000000?text=${phoneMsg}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] py-3 text-sm font-bold text-white transition hover:brightness-110"
@@ -372,7 +390,7 @@ export default function PropertyDetailPage() {
                   <span>واتساب</span>
                 </a>
                 <a
-                  href="https://wa.me/966500000000?text=أرغب%20بطلب%20معاينة%20لـ%20فيلا%20فاخرة%20في%20النرجس"
+                  href={`https://wa.me/966500000000?text=${phoneMsg}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full border border-ink/70 py-3 text-sm font-bold text-ink transition hover:bg-ink/5"
@@ -408,39 +426,41 @@ export default function PropertyDetailPage() {
         </div>
 
         {/* 9. Similar Properties */}
-        <section className="mt-14">
-          <h2 className="mb-6 text-xl font-bold">عقارات مشابهة</h2>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {SIMILAR.map((p) => (
-              <a
-                key={p.title}
-                href={`#property/similar-${p.title}`}
-                aria-label={`عرض ${p.title} في ${p.location}`}
-                className="block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold"
-              >
-                <div className="h-48 w-full overflow-hidden">
-                  <img
-                    src={p.image}
-                    alt={`${p.title} — ${p.location}`}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <div className="p-5">
-                  <h3 className="text-lg font-bold">{p.title}</h3>
-                  <p className="mt-1 inline-flex items-center gap-1 text-xs text-ink/65">
-                    <MapPin size={12} className="text-gold" />
-                    {p.location}
-                  </p>
-                  <div className="mt-3 text-lg font-extrabold text-gold">
-                    {p.price} <span className="text-sm">ر.س</span>
+        {similar.length > 0 && (
+          <section className="mt-14">
+            <h2 className="mb-6 text-xl font-bold">عقارات مشابهة</h2>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {similar.map((p: Property) => (
+                <a
+                  key={p.id}
+                  href={`#property/${p.id}`}
+                  aria-label={`عرض ${p.title} في ${p.city}`}
+                  className="block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition hover:shadow-md focus-visible:ring-2 focus-visible:ring-gold"
+                >
+                  <div className="h-48 w-full overflow-hidden">
+                    <img
+                      src={p.image}
+                      alt={`${p.title} — ${p.city}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover"
+                    />
                   </div>
-                </div>
-              </a>
-            ))}
-          </div>
-        </section>
+                  <div className="p-5">
+                    <h3 className="text-lg font-bold">{p.title}</h3>
+                    <p className="mt-1 inline-flex items-center gap-1 text-xs text-ink/65">
+                      <MapPin size={12} className="text-gold" />
+                      {p.city} - {p.district}
+                    </p>
+                    <div className="mt-3 text-lg font-extrabold text-gold">
+                      {formatPrice(p.price)} <span className="text-sm">ر.س</span>
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
 
       {/* 11. Final CTA Banner */}
@@ -461,7 +481,7 @@ export default function PropertyDetailPage() {
             تواصل معنا الآن للحصول على التفاصيل الكاملة أو حجز زيارة ميدانية.
           </p>
           <a
-            href="tel:+966500000000"
+            href={`tel:${TEL}`}
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3.5 text-[15px] font-semibold text-white shadow-lg transition hover:bg-gold-light"
           >
             <Phone size={16} className="rotate-[12deg]" />
@@ -469,6 +489,8 @@ export default function PropertyDetailPage() {
           </a>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }

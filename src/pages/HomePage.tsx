@@ -6,6 +6,7 @@ import LatestProperties from '../sections/LatestProperties';
 import CompanyExpertise from '../sections/CompanyExpertise';
 import Services from '../sections/Services';
 import CtaBanner from '../sections/CtaBanner';
+import Footer from '../components/Footer';
 
 export default function HomePage() {
   return (
@@ -29,6 +30,7 @@ export default function HomePage() {
       <Services />
 
       <CtaBanner />
+      <Footer />
     </div>
   );
 }

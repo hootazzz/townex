@@ -12,13 +12,10 @@ import {
   User,
   ArrowLeft,
   Quote,
-  Handshake,
-  Users,
-  Building2,
-  ShieldCheck,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import SolidNavbar from '../components/SolidNavbar';
+import Footer from '../components/Footer';
 
 const TEL = '+966111234567';
 const TEL_DISPLAY = '+966 11 123 4567';
@@ -66,13 +63,6 @@ const SOCIALS: Social[] = [
     cta: 'فتح سناب شات',
     href: SNAPCHAT,
   },
-];
-
-const FOOTER_FEATURES: { Icon: LucideIcon; label: string }[] = [
-  { Icon: Handshake, label: 'شريكك في النجاح العقاري' },
-  { Icon: Users, label: 'فريق متخصص بخبرات عالية' },
-  { Icon: Building2, label: 'حلول متكاملة تلبي احتياجاتك' },
-  { Icon: ShieldCheck, label: 'خبرة هندسية ورؤية استثمارية' },
 ];
 
 const SERVICE_OPTIONS = [
@@ -404,24 +394,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* FOOTER FEATURES STRIP */}
-      <section className="bg-ink">
-        <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-y-8 px-5 py-10 md:grid-cols-4 md:gap-0 md:px-10 md:py-8">
-          {FOOTER_FEATURES.map(({ Icon, label }, i) => (
-            <div
-              key={label}
-              className={`flex items-center justify-center gap-3 px-3 text-center md:px-6 ${
-                i !== FOOTER_FEATURES.length - 1 ? 'md:border-l md:border-white/15' : ''
-              }`}
-            >
-              <Icon size={22} strokeWidth={1.5} className="shrink-0 text-gold" />
-              <span className="text-[13px] font-semibold text-white/90 md:text-[13.5px]">
-                {label}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
+      <Footer />
     </div>
   );
 }

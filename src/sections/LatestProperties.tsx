@@ -9,60 +9,21 @@ import {
   MapPin,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
+import { PROPERTIES as ALL_PROPERTIES, LISTING_LABEL, type Property } from '../data/properties';
 
-type Property = {
-  id: string;
-  badge: string;
-  title: string;
-  location: string;
-  image: string;
-  price: string;
-  meta: { Icon: LucideIcon; value: string }[];
-};
+type Meta = { Icon: LucideIcon; value: string };
 
-const PROPERTIES: Property[] = [
-  {
-    id: 'villa-narjis-01',
-    badge: 'للبيع',
-    title: 'فيلا فاخرة',
-    location: 'الرياض - النرجس',
-    image:
-      'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80',
-    price: '2,850,000',
-    meta: [
-      { Icon: Maximize, value: '450' },
-      { Icon: Bath, value: '7 دورات مياه' },
-      { Icon: BedDouble, value: '7 غرف' },
-    ],
-  },
-  {
-    id: 'building-rawda-02',
-    badge: 'للبيع',
-    title: 'عمارة سكنية',
-    location: 'جدة - الروضة',
-    image:
-      'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
-    price: '4,200,000',
-    meta: [
-      { Icon: Maximize, value: '600' },
-      { Icon: Building2, value: '10 شقق' },
-      { Icon: Bath, value: 'مواقف' },
-    ],
-  },
-  {
-    id: 'land-north-riyadh-03',
-    badge: 'فرصة استثمارية',
-    title: 'أرض تجارية',
-    location: 'شمال الرياض',
-    image:
-      'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
-    price: '1,750,000',
-    meta: [
-      { Icon: Maximize, value: '2,000' },
-      { Icon: MapPin, value: 'موقع مميز' },
-    ],
-  },
-];
+function metaFor(p: Property): Meta[] {
+  const m: Meta[] = [{ Icon: Maximize, value: `${p.area}م²` }];
+  if (p.rooms) m.push({ Icon: BedDouble, value: `${p.rooms} غرف` });
+  if (p.baths) m.push({ Icon: Bath, value: `${p.baths} دورات` });
+  if (!p.rooms && p.usage) m.push({ Icon: Building2, value: p.usage });
+  if (!p.baths && p.parking) m.push({ Icon: MapPin, value: p.parking });
+  return m.slice(0, 3);
+}
+
+const HIGHLIGHTED_IDS = ['villa-narjis-01', 'invest-jeddah-03', 'land-north-06'];
+const PROPERTIES = HIGHLIGHTED_IDS.map((id) => ALL_PROPERTIES.find((p) => p.id === id)!).filter(Boolean);
 
 export default function LatestProperties() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -189,44 +150,48 @@ export default function LatestProperties() {
             className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-2 md:gap-7 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
             style={{ scrollSnapType: 'x mandatory' }}
           >
-            {PROPERTIES.map((p) => (
-              <a
-                key={p.id}
-                href={`#property/${p.id}`}
-                aria-label={`عرض تفاصيل ${p.title} في ${p.location}`}
-                className="block w-[85%] shrink-0 snap-start overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-black/5 transition hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold sm:w-[48%] md:w-[calc((100%-3.5rem)/3)]"
-              >
-                <div className="relative h-56 w-full">
-                  <img
-                    src={p.image}
-                    alt={`${p.title} — ${p.location}`}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-full w-full object-cover"
-                  />
-                  <span className="absolute right-4 top-4 rounded-md bg-ink/85 px-3 py-1 text-xs font-semibold text-gold backdrop-blur">
-                    {p.badge}
-                  </span>
-                </div>
-                <div className="p-6 text-center">
-                  <h3 className="text-xl font-bold text-ink">{p.title}</h3>
-                  <p className="mt-1 text-sm text-ink/60">{p.location}</p>
-
-                  <div className="my-5 flex items-center justify-center gap-5 text-[12px] text-ink/75">
-                    {p.meta.map(({ Icon, value }, i) => (
-                      <span key={i} className="inline-flex items-center gap-1.5">
-                        <Icon size={14} className="text-gold" />
-                        <span>{value}</span>
-                      </span>
-                    ))}
+            {PROPERTIES.map((p) => {
+              const meta = metaFor(p);
+              const location = `${p.city} - ${p.district}`;
+              return (
+                <a
+                  key={p.id}
+                  href={`#property/${p.id}`}
+                  aria-label={`عرض تفاصيل ${p.title} في ${location}`}
+                  className="block w-[85%] shrink-0 snap-start overflow-hidden rounded-2xl bg-white shadow-md ring-1 ring-black/5 transition hover:shadow-lg focus-visible:ring-2 focus-visible:ring-gold sm:w-[48%] md:w-[calc((100%-3.5rem)/3)]"
+                >
+                  <div className="relative h-56 w-full">
+                    <img
+                      src={p.image}
+                      alt={`${p.title} — ${location}`}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover"
+                    />
+                    <span className="absolute right-4 top-4 rounded-md bg-ink/85 px-3 py-1 text-xs font-semibold text-gold backdrop-blur">
+                      {LISTING_LABEL[p.listing]}
+                    </span>
                   </div>
+                  <div className="p-6 text-center">
+                    <h3 className="text-xl font-bold text-ink">{p.title}</h3>
+                    <p className="mt-1 text-sm text-ink/60">{location}</p>
 
-                  <div className="border-t border-black/5 pt-4 text-lg font-extrabold text-gold">
-                    {p.price} <span className="text-sm font-semibold">ر.س</span>
+                    <div className="my-5 flex items-center justify-center gap-5 text-[12px] text-ink/75">
+                      {meta.map(({ Icon, value }, i) => (
+                        <span key={i} className="inline-flex items-center gap-1.5">
+                          <Icon size={14} className="text-gold" />
+                          <span>{value}</span>
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="border-t border-black/5 pt-4 text-lg font-extrabold text-gold">
+                      {new Intl.NumberFormat('en-US').format(p.price)} <span className="text-sm font-semibold">ر.س</span>
+                    </div>
                   </div>
-                </div>
-              </a>
-            ))}
+                </a>
+              );
+            })}
           </div>
         </div>
 

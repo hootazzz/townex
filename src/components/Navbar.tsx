@@ -6,7 +6,8 @@ const NAV_ITEMS: { label: string; href: string }[] = [
   { label: 'الرئيسية', href: '#home' },
   { label: 'من نحن', href: '#about' },
   { label: 'خدماتنا', href: '#services' },
-  { label: 'عروضنا', href: '#offers' },
+  { label: 'مشاريعنا', href: '#about' },
+  { label: 'العروض', href: '#offers' },
   { label: 'تواصل معنا', href: '#contact' },
 ];
 

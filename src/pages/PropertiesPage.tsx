@@ -15,121 +15,13 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import SolidNavbar from '../components/SolidNavbar';
 import Footer from '../components/Footer';
+import { PROPERTIES, LISTING_LABEL, type Listing, type Property } from '../data/properties';
 
 const TEL = '+966111234567';
 const SKYLINE_IMG =
   'https://images.unsplash.com/photo-1604595568318-cea99fef25c4?auto=format&fit=crop&w=2400&q=80';
 const HERO_IMG =
   'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80';
-
-type Listing = 'sale' | 'rent' | 'invest';
-type PType = 'فيلا' | 'شقة' | 'أرض' | 'مكتب' | 'عمارة' | 'تاون هاوس';
-
-type Property = {
-  id: string;
-  title: string;
-  city: string;
-  district: string;
-  listing: Listing;
-  type: PType;
-  area: number;
-  price: number;
-  priceSuffix?: string; // e.g. '/ سنوياً'
-  rooms?: number;
-  baths?: number;
-  parking?: string; // parking detail / floors / etc.
-  usage?: string;
-  image: string;
-};
-
-const LISTING_LABEL: Record<Listing, string> = {
-  sale: 'للبيع',
-  rent: 'للإيجار',
-  invest: 'استثمار',
-};
-
-const PROPERTIES: Property[] = [
-  {
-    id: 'villa-narjis-01',
-    title: 'فيلا فاخرة في النرجس',
-    city: 'الرياض',
-    district: 'النرجس',
-    listing: 'sale',
-    type: 'فيلا',
-    area: 450,
-    price: 4200000,
-    rooms: 5,
-    baths: 7,
-    image: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'apt-malqa-02',
-    title: 'شقة فاخرة في الملقا',
-    city: 'الرياض',
-    district: 'الملقا',
-    listing: 'rent',
-    type: 'شقة',
-    area: 180,
-    price: 120000,
-    priceSuffix: '/ سنوياً',
-    rooms: 3,
-    baths: 4,
-    image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'invest-jeddah-03',
-    title: 'مبنى تجاري استثماري',
-    city: 'جدة',
-    district: 'شارع التحلية',
-    listing: 'invest',
-    type: 'عمارة',
-    area: 2250,
-    price: 16500000,
-    parking: 'مواقف خاصة',
-    usage: '4 أدوار',
-    image: 'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'townhouse-yasmin-04',
-    title: 'تاون هاوس فاخر',
-    city: 'الرياض',
-    district: 'الياسمين',
-    listing: 'sale',
-    type: 'تاون هاوس',
-    area: 250,
-    price: 2650000,
-    rooms: 4,
-    baths: 5,
-    image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'office-olaya-05',
-    title: 'مكتب إداري راقي',
-    city: 'الرياض',
-    district: 'العليا',
-    listing: 'rent',
-    type: 'مكتب',
-    area: 110,
-    price: 85000,
-    priceSuffix: '/ سنوياً',
-    usage: 'مكتب مفتوح',
-    parking: 'دورة مياه',
-    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
-  },
-  {
-    id: 'land-north-06',
-    title: 'أرض سكنية استثمارية',
-    city: 'الرياض',
-    district: 'شمال الرياض',
-    listing: 'invest',
-    type: 'أرض',
-    area: 600,
-    price: 3900000,
-    usage: 'سكني',
-    parking: 'شارع 20م',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
-  },
-];
 
 const TABS: { id: 'all' | Listing; label: string }[] = [
   { id: 'all', label: 'الكل' },
