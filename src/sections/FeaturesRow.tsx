@@ -36,10 +36,10 @@ export default function FeaturesRow() {
                 }`}
               >
                 <div className="text-right">
-                  <div className="text-[14px] font-bold text-ink">{title}</div>
-                  <div className="mt-0.5 text-[11px] text-ink/70">{subtitle}</div>
+                  <div className="text-[14.5px] font-bold text-ink">{title}</div>
+                  <div className="mt-0.5 text-[11.5px] text-ink/80">{subtitle}</div>
                 </div>
-                <Icon className="shrink-0 text-gold" size={34} strokeWidth={1.4} />
+                <Icon className="shrink-0 text-gold drop-shadow" size={36} strokeWidth={1.6} />
               </div>
             ))}
           </div>

@@ -73,10 +73,11 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`relative pb-2 text-[15px] transition ${
+                  style={{ textShadow: '0 1px 6px rgba(0,0,0,0.35)' }}
+                  className={`relative pb-2 text-[15px] font-medium transition ${
                     isActive
                       ? 'font-semibold text-gold'
-                      : 'text-white/90 hover:text-white'
+                      : 'text-white hover:text-gold-light'
                   }`}
                 >
                   {item.label}

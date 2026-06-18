@@ -13,7 +13,7 @@ export default function Hero() {
         // @ts-expect-error — fetchpriority isn't in React's IMG type yet
         fetchpriority="high"
         decoding="async"
-        className="absolute inset-0 h-full w-full object-cover object-[70%_center] lg:object-center"
+        className="absolute inset-0 h-full w-full object-cover object-[70%_center] lg:object-[60%_45%]"
       />
 
       {/* MOBILE overlay: light wash at top (so navy logo reads on sky), strong
@@ -26,12 +26,12 @@ export default function Hero() {
         }}
       />
 
-      {/* DESKTOP overlays: subtle right-side cream wash + bottom fade */}
+      {/* DESKTOP overlays: cream wash on the right (behind text only) + bottom fade */}
       <div
         className="absolute inset-0 hidden lg:block"
         style={{
           background:
-            'linear-gradient(90deg, rgba(244,241,235,0.25) 0%, rgba(244,241,235,0.08) 30%, rgba(244,241,235,0) 50%)',
+            'linear-gradient(270deg, rgba(244,241,235,0.85) 0%, rgba(244,241,235,0.55) 22%, rgba(244,241,235,0.2) 40%, rgba(244,241,235,0) 55%)',
         }}
       />
       <div
@@ -90,22 +90,22 @@ export default function Hero() {
       </div>
 
       {/* DESKTOP content — left-positioned, dark text on sky */}
-      <div className="relative z-10 mx-auto hidden min-h-[820px] max-w-[1500px] justify-end px-5 pt-36 lg:flex lg:px-10 lg:pt-[150px]">
-        <div className="w-full max-w-[480px] text-right">
-          <h1 className="font-cairo text-5xl font-extrabold leading-[1.08] text-ink lg:text-[72px] lg:leading-[1.05]">
+      <div className="relative z-10 mx-auto hidden min-h-[820px] max-w-[1500px] justify-end px-5 pt-40 lg:flex lg:px-10 lg:pt-[170px]">
+        <div className="w-full max-w-[520px] text-right">
+          <h1 className="font-cairo text-5xl font-extrabold leading-[1.1] text-ink lg:text-[60px] lg:leading-[1.1]">
             <span className="block whitespace-nowrap">شريكك في</span>
-            <span className="mt-2 block whitespace-nowrap bg-gradient-to-l from-gold to-gold-light bg-clip-text text-transparent">
+            <span className="mt-3 block whitespace-nowrap bg-gradient-to-l from-gold to-gold-light bg-clip-text text-transparent">
               النجاح العقاري
             </span>
           </h1>
 
-          <p className="mt-9 text-[15px] leading-[1.85] text-ink/80 lg:text-base">
+          <p className="mt-8 text-[16px] leading-[1.9] text-ink/85 lg:text-[17px]">
             تسويق عقاري، إدارة أملاك، تصميم وإشراف هندسي
             <br />
             بمعايير احترافية
           </p>
 
-          <div className="mt-14 flex flex-wrap-reverse items-center justify-end gap-4">
+          <div className="mt-10 flex flex-wrap-reverse items-center justify-end gap-4">
             <a
               href="#offers"
               className="inline-flex items-center gap-2 rounded-full border border-ink/70 px-7 py-3.5 text-[14px] font-semibold text-ink transition hover:bg-ink/5"
