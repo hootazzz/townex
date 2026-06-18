@@ -48,8 +48,8 @@ export default function Navbar() {
     <>
       <header className="absolute inset-x-0 top-0 z-30">
         {/* Mobile/Tablet: logo centered + hamburger on the left */}
-        <div className="relative flex items-center justify-center px-5 pt-5 lg:hidden">
-          <Logo className="h-12 w-auto" />
+        <div className="relative flex items-center justify-center px-5 pt-6 lg:hidden">
+          <Logo className="h-16 w-auto" />
           <button
             type="button"
             aria-label="فتح القائمة"
@@ -62,8 +62,8 @@ export default function Navbar() {
         </div>
 
         {/* Desktop: full nav */}
-        <div className="mx-auto hidden max-w-[1500px] items-center justify-between px-5 py-6 lg:flex lg:px-10 lg:py-7">
-          <Logo className="h-14 w-auto lg:h-16" />
+        <div className="mx-auto hidden max-w-[1500px] items-center justify-between px-5 py-5 lg:flex lg:px-10 lg:py-6">
+          <Logo className="h-20 w-auto lg:h-24" />
 
           <nav className="hidden flex-1 items-center justify-center gap-10 lg:flex">
             {NAV_ITEMS.map((item) => {

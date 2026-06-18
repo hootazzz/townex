@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Phone, X as XIcon } from 'lucide-react';
+import Logo from './Logo';
 
 export type NavItem = { label: string; href: string };
 
@@ -50,10 +51,8 @@ export default function MobileDrawer({ open, onClose, items, activeHref, ctaHref
           open ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between px-5 py-5">
-          <span className="text-xl font-extrabold tracking-wide text-ink">
-            TOWN<span className="text-gold">X</span>
-          </span>
+        <div className="flex items-center justify-between px-5 py-4">
+          <Logo className="h-12 w-auto" />
           <button
             type="button"
             aria-label="إغلاق القائمة"

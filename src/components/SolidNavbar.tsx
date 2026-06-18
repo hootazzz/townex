@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Phone, Menu } from 'lucide-react';
 import MobileDrawer, { type NavItem } from './MobileDrawer';
 import { WHATSAPP_HREF } from '../data/contact';
+import Logo from './Logo';
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'الرئيسية', href: '#home' },
@@ -26,14 +27,8 @@ export default function SolidNavbar({ active }: Props) {
     <>
       <header className="sticky top-0 z-30 border-b border-black/5 bg-white/95 backdrop-blur">
         {/* Mobile/Tablet */}
-        <div className="relative flex items-center justify-center px-5 py-4 lg:hidden">
-          <a
-            href="#home"
-            aria-label="الصفحة الرئيسية"
-            className="text-2xl font-extrabold tracking-wide text-ink"
-          >
-            TOWN<span className="text-gold">X</span>
-          </a>
+        <div className="relative flex items-center justify-center px-5 py-3 lg:hidden">
+          <Logo className="h-14 w-auto" />
           <button
             type="button"
             aria-label="فتح القائمة"
@@ -46,15 +41,8 @@ export default function SolidNavbar({ active }: Props) {
         </div>
 
         {/* Desktop */}
-        <div className="mx-auto hidden max-w-[1500px] items-center justify-between px-10 py-5 lg:flex">
-          <a href="#home" className="flex flex-col items-end leading-none">
-            <span className="text-[28px] font-extrabold tracking-[0.04em] text-ink">
-              TOWN<span className="text-gold">X</span>
-            </span>
-            <span className="mt-1 text-[11px] font-medium text-ink/65">
-              تطوير . تصميم . تسويق . إدارة أملاك
-            </span>
-          </a>
+        <div className="mx-auto hidden max-w-[1500px] items-center justify-between px-10 py-4 lg:flex">
+          <Logo className="h-20 w-auto" />
 
           <nav className="flex flex-1 items-center justify-center gap-10">
             {NAV_ITEMS.map((item) => {

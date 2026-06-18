@@ -16,12 +16,13 @@ export default function Hero() {
         className="absolute inset-0 h-full w-full object-cover object-[70%_center] lg:object-center"
       />
 
-      {/* MOBILE overlay: vertical dark gradient for text legibility */}
+      {/* MOBILE overlay: light wash at top (so navy logo reads on sky), strong
+          dark gradient on the lower half behind the headline + CTAs */}
       <div
         className="absolute inset-0 lg:hidden"
         style={{
           background:
-            'linear-gradient(180deg, rgba(11,13,18,0.75) 0%, rgba(11,13,18,0.65) 25%, rgba(11,13,18,0.55) 55%, rgba(11,13,18,0.7) 80%, rgba(11,13,18,0.95) 100%)',
+            'linear-gradient(180deg, rgba(244,241,235,0.55) 0%, rgba(244,241,235,0.25) 14%, rgba(11,13,18,0) 28%, rgba(11,13,18,0.6) 48%, rgba(11,13,18,0.88) 70%, rgba(11,13,18,0.97) 100%)',
         }}
       />
 
@@ -41,38 +42,46 @@ export default function Hero() {
         }}
       />
 
-      {/* MOBILE content — single balanced stack with consistent vertical rhythm */}
-      <div className="relative z-10 mx-auto flex max-w-md flex-col items-center px-6 pb-20 pt-24 text-center lg:hidden">
-        <h1
-          className="font-cairo font-extrabold leading-[1.15] text-white"
-          style={{ textShadow: '0 2px 12px rgba(0,0,0,.35)' }}
-        >
-          <span className="block whitespace-nowrap text-[30px] sm:text-[38px]">شريكك في</span>
-          <span className="mt-2 block whitespace-nowrap bg-gradient-to-l from-gold to-gold-light bg-clip-text text-[34px] text-transparent sm:text-[42px]">
+      {/* MOBILE content — Navbar (logo) sits on the light top wash; headline
+          and CTAs anchor to the bottom where the dark gradient lives so
+          contrast is high and nothing collides with the villa silhouette */}
+      <div className="relative z-10 mx-auto flex min-h-[680px] max-w-md flex-col items-center px-6 pb-16 pt-44 text-center lg:hidden">
+        <div className="mt-auto" />
+        <h1 className="font-cairo font-extrabold tracking-tight">
+          <span
+            className="block whitespace-nowrap text-[32px] leading-[1.2] text-white sm:text-[40px]"
+            style={{ textShadow: '0 3px 22px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.5)' }}
+          >
+            شريكك في
+          </span>
+          <span
+            className="mt-3 block whitespace-nowrap text-[36px] leading-[1.2] text-gold-light sm:text-[44px]"
+            style={{ textShadow: '0 3px 22px rgba(0,0,0,0.7), 0 1px 4px rgba(0,0,0,0.5)' }}
+          >
             النجاح العقاري
           </span>
         </h1>
 
         <p
-          className="mt-8 max-w-[320px] text-[14px] leading-[1.85] text-white/85"
-          style={{ textShadow: '0 2px 12px rgba(0,0,0,.35)' }}
+          className="mt-7 max-w-[300px] text-[14.5px] font-medium leading-[1.95] text-white/90"
+          style={{ textShadow: '0 2px 10px rgba(0,0,0,0.5)' }}
         >
           تسويق عقاري، إدارة أملاك، تصميم وإشراف هندسي بمعايير احترافية
         </p>
 
-        <div className="mt-12 flex w-full flex-col items-center gap-3.5">
+        <div className="mt-10 flex w-full flex-col items-center gap-3.5">
           <a
             href="https://wa.me/966501000460"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex w-full max-w-[280px] items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-white shadow-lg active:bg-gold-light"
+            className="inline-flex w-full max-w-[300px] items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-white shadow-xl shadow-black/30 active:bg-gold-light"
           >
             <Phone size={15} className="rotate-[12deg]" />
             <span>تواصل معنا الآن</span>
           </a>
           <a
             href="#offers"
-            className="inline-flex w-full max-w-[280px] items-center justify-center gap-2 rounded-full border border-white/80 px-6 py-3.5 text-[14px] font-semibold text-white active:bg-white/10"
+            className="inline-flex w-full max-w-[300px] items-center justify-center gap-2 rounded-full border border-white/80 bg-white/5 px-6 py-3.5 text-[14px] font-semibold text-white backdrop-blur-sm active:bg-white/15"
           >
             <ChevronLeft size={16} />
             <span>استعرض العروض</span>
