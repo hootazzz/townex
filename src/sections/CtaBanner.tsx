@@ -1,7 +1,7 @@
 import { Phone } from 'lucide-react';
 
 const BANNER_IMG =
-  'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=2400&q=80';
+  'https://images.unsplash.com/photo-1604595568318-cea99fef25c4?auto=format&fit=crop&w=2400&q=80';
 
 export default function CtaBanner() {
   return (
@@ -13,7 +13,7 @@ export default function CtaBanner() {
         decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-ink/80" />
+      <div className="absolute inset-0 bg-gradient-to-l from-ink/90 via-ink/80 to-ink/65" />
 
       <div className="relative z-10 mx-auto max-w-[1100px] px-5 py-20 text-center md:py-24">
         <h2 className="text-3xl font-extrabold text-white md:text-[36px]">
