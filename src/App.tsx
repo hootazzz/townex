@@ -3,6 +3,7 @@ import HomePage from './pages/HomePage';
 import PropertyDetailPage from './pages/PropertyDetailPage';
 import ContactPage from './pages/ContactPage';
 import ServicesPage from './pages/ServicesPage';
+import ServiceDetailPage from './pages/ServiceDetailPage';
 import PropertiesPage from './pages/PropertiesPage';
 import AboutPage from './pages/AboutPage';
 
@@ -24,6 +25,7 @@ export default function App() {
 
   if (route.startsWith('property/')) return <PropertyDetailPage />;
   if (route === 'contact') return <ContactPage />;
+  if (route.startsWith('services/')) return <ServiceDetailPage />;
   if (route === 'services') return <ServicesPage />;
   if (route === 'offers') return <PropertiesPage />;
   if (route === 'about') return <AboutPage />;

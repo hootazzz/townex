@@ -1,9 +1,5 @@
 import { useEffect } from 'react';
 import {
-  Megaphone,
-  Building,
-  Pencil,
-  HardHat,
   ChevronLeft,
   Phone,
   UserRound,
@@ -15,31 +11,7 @@ import type { LucideIcon } from 'lucide-react';
 import SolidNavbar from '../components/SolidNavbar';
 import Footer from '../components/Footer';
 import { WHATSAPP_HREF } from '../data/contact';
-
-type Service = { Icon: LucideIcon; title: string; body: string };
-
-const SERVICES: Service[] = [
-  {
-    Icon: Megaphone,
-    title: 'التسويق العقاري',
-    body: 'استراتيجيات تسويق احترافية للوصول إلى العملاء المستهدفين وتحقيق أفضل النتائج.',
-  },
-  {
-    Icon: Building,
-    title: 'إدارة الأملاك',
-    body: 'إدارة وتشغيل الأصول العقارية بكفاءة واحترافية مع متابعة مستمرة.',
-  },
-  {
-    Icon: Pencil,
-    title: 'التصميم والتنفيذ',
-    body: 'تصميم معماري وتنفيذ متكامل بمعايير عالية وجودة استثنائية.',
-  },
-  {
-    Icon: HardHat,
-    title: 'الإشراف الهندسي',
-    body: 'إشراف هندسي دقيق يضمن جودة التنفيذ والالتزام بالمواصفات.',
-  },
-];
+import { SERVICES } from '../data/services';
 
 type Reason = { Icon: LucideIcon; title: string; body: string };
 
@@ -127,24 +99,22 @@ export default function ServicesPage() {
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-7">
-            {SERVICES.map(({ Icon, title, body }) => (
-              <article
-                key={title}
+            {SERVICES.map((s) => (
+              <a
+                key={s.slug}
+                href={`#services/${s.slug}`}
                 className="group relative flex flex-col items-center rounded-2xl bg-white p-8 text-center shadow-sm ring-1 ring-black/5 transition hover:-translate-y-1 hover:shadow-lg"
               >
                 <span className="flex h-16 w-16 items-center justify-center rounded-full bg-gold text-white shadow-md transition group-hover:bg-gold-light">
-                  <Icon size={26} strokeWidth={1.7} />
+                  <s.Icon size={26} strokeWidth={1.7} />
                 </span>
-                <h3 className="mt-5 text-lg font-bold text-ink">{title}</h3>
-                <p className="mt-2 text-[13px] leading-[1.85] text-ink/65">{body}</p>
-                <a
-                  href="#contact"
-                  className="mt-5 inline-flex items-center gap-1 text-[13px] font-semibold text-ink/70 transition hover:text-gold"
-                >
+                <h3 className="mt-5 text-lg font-bold text-ink">{s.title}</h3>
+                <p className="mt-2 text-[13px] leading-[1.85] text-ink/65">{s.short}</p>
+                <span className="mt-5 inline-flex items-center gap-1 text-[13px] font-semibold text-ink/70 transition group-hover:text-gold">
                   <ChevronLeft size={14} />
                   <span>تعرف أكثر</span>
-                </a>
-              </article>
+                </span>
+              </a>
             ))}
           </div>
         </div>
