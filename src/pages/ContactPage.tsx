@@ -5,29 +5,28 @@ import {
   MapPin,
   Clock,
   MessageCircle,
-  Linkedin,
-  Twitter,
-  Ghost,
   ChevronLeft,
   User,
   ArrowLeft,
   Quote,
 } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
 import SolidNavbar from '../components/SolidNavbar';
 import Footer from '../components/Footer';
-
-const TEL = '+966111234567';
-const TEL_DISPLAY = '+966 11 123 4567';
-const EMAIL = 'info@townx.sa';
-const WHATSAPP = 'https://wa.me/966500000000';
-const LINKEDIN = 'https://www.linkedin.com/';
-const TWITTER = 'https://twitter.com/';
-const SNAPCHAT = 'https://www.snapchat.com/';
+import TikTokIcon from '../components/icons/TikTokIcon';
+import {
+  TEL,
+  TEL_DISPLAY,
+  TEL_HREF,
+  WHATSAPP_HREF,
+  TIKTOK_HREF,
+  EMAIL,
+  EMAIL_HREF,
+  ADDRESS,
+} from '../data/contact';
 
 type Social = {
-  Icon: LucideIcon;
-  iconBg?: string;
+  // Accepts both lucide icons and our custom TikTokIcon — both take a `size` prop.
+  Icon: React.ComponentType<{ size?: number | string; className?: string }>;
   title: string;
   body: string;
   cta: string;
@@ -40,28 +39,28 @@ const SOCIALS: Social[] = [
     title: 'واتساب',
     body: 'تواصل مباشرة مع فريقنا',
     cta: 'ابدأ المحادثة',
-    href: WHATSAPP,
+    href: WHATSAPP_HREF,
   },
   {
-    Icon: Linkedin,
-    title: 'لينكدإن',
-    body: 'تابع أحدث مشاريعنا وفرصنا الاستثمارية',
-    cta: 'زيارة الصفحة',
-    href: LINKEDIN,
-  },
-  {
-    Icon: Twitter,
-    title: 'تويتر (X)',
-    body: 'آخر الأخبار والتحديثات العقارية',
+    Icon: TikTokIcon,
+    title: 'تيك توك',
+    body: 'تابع جديد مشاريعنا وأحدث الفرص العقارية',
     cta: 'زيارة الحساب',
-    href: TWITTER,
+    href: TIKTOK_HREF,
   },
   {
-    Icon: Ghost,
-    title: 'سناب شات',
-    body: 'شاهد مشاريعنا وتجارب عملائنا',
-    cta: 'فتح سناب شات',
-    href: SNAPCHAT,
+    Icon: Phone,
+    title: 'اتصال مباشر',
+    body: 'تحدث مع فريق المبيعات الآن',
+    cta: 'اتصل الآن',
+    href: TEL_HREF,
+  },
+  {
+    Icon: Mail,
+    title: 'البريد الإلكتروني',
+    body: 'راسلنا لأي استفسار أو طلب',
+    cta: 'إرسال بريد',
+    href: EMAIL_HREF,
   },
 ];
 
@@ -245,7 +244,7 @@ function SocialCard({ s }: { s: Social }) {
       className="group flex items-center gap-4 rounded-2xl bg-white p-5 shadow-sm ring-1 ring-black/5 transition hover:shadow-md"
     >
       <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gold text-white shadow-sm">
-        <s.Icon size={22} strokeWidth={1.7} />
+        <s.Icon size={22} />
       </span>
       <div className="flex-1 text-right">
         <div className="text-[15px] font-bold text-ink">{s.title}</div>
@@ -269,7 +268,7 @@ function ContactInfo() {
             <Phone size={15} className="rotate-[12deg]" />
           </span>
           <div>
-            <a href={`tel:${TEL}`} dir="ltr" className="block text-[14px] font-bold text-ink hover:text-gold">
+            <a href={TEL_HREF} dir="ltr" className="block text-[14px] font-bold text-ink hover:text-gold">
               {TEL_DISPLAY}
             </a>
             <div className="text-[11.5px] text-ink/55">اتصل بنا الآن</div>
@@ -280,7 +279,7 @@ function ContactInfo() {
             <Mail size={15} />
           </span>
           <div>
-            <a href={`mailto:${EMAIL}`} className="block text-[14px] font-bold text-ink hover:text-gold">
+            <a href={EMAIL_HREF} className="block text-[14px] font-bold text-ink hover:text-gold">
               {EMAIL}
             </a>
             <div className="text-[11.5px] text-ink/55">راسلنا عبر البريد الإلكتروني</div>
@@ -291,7 +290,7 @@ function ContactInfo() {
             <MapPin size={15} />
           </span>
           <div>
-            <div className="text-[14px] font-bold text-ink">الرياض - المملكة العربية السعودية</div>
+            <div className="text-[14px] font-bold text-ink">{ADDRESS}</div>
             <div className="text-[11.5px] text-ink/55">حي الملك عبد الله المالي</div>
           </div>
         </li>
@@ -385,7 +384,9 @@ export default function ContactPage() {
             </p>
           </div>
           <a
-            href={`tel:${TEL}`}
+            href={WHATSAPP_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-8 py-3.5 text-[15px] font-semibold text-white shadow-lg transition hover:bg-gold-light md:order-1"
           >
             <ArrowLeft size={16} />

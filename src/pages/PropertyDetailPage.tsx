@@ -21,9 +21,15 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import Footer from '../components/Footer';
 import SolidNavbar from '../components/SolidNavbar';
+import {
+  TEL_HREF,
+  TEL_DISPLAY,
+  WHATSAPP_HREF,
+  whatsappWithMessage,
+  ADDRESS,
+} from '../data/contact';
 import { getProperty, getSimilar, LISTING_LABEL, PROPERTIES, type Property } from '../data/properties';
 
-const TEL = '+966500000000';
 
 const AMENITIES = [
   'مسبح خاص',
@@ -138,7 +144,8 @@ export default function PropertyDetailPage() {
 
   const similar = getSimilar(property.id, 3);
 
-  const phoneMsg = `أرغب%20بطلب%20معاينة%20لـ%20${encodeURIComponent(property.title)}`;
+  const viewingMsg = `أرغب بطلب معاينة لـ ${property.title}`;
+  const generalMsg = `استفسار عن ${property.title}`;
 
   return (
     <div dir="rtl" className="bg-cream font-cairo text-ink">
@@ -361,14 +368,14 @@ export default function PropertyDetailPage() {
 
               <div className="mt-5 space-y-2.5">
                 <a
-                  href={`tel:${TEL}`}
+                  href={TEL_HREF}
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-gold py-3 text-sm font-bold text-white transition hover:bg-gold-light"
                 >
                   <Phone size={16} className="rotate-[12deg]" />
                   <span>اتصل بنا</span>
                 </a>
                 <a
-                  href={`https://wa.me/966500000000?text=${phoneMsg}`}
+                  href={whatsappWithMessage(generalMsg)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] py-3 text-sm font-bold text-white transition hover:brightness-110"
@@ -377,7 +384,7 @@ export default function PropertyDetailPage() {
                   <span>واتساب</span>
                 </a>
                 <a
-                  href={`https://wa.me/966500000000?text=${phoneMsg}`}
+                  href={whatsappWithMessage(viewingMsg)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full border border-ink/70 py-3 text-sm font-bold text-ink transition hover:bg-ink/5"
@@ -386,7 +393,7 @@ export default function PropertyDetailPage() {
                   <span>طلب معاينة</span>
                 </a>
                 <a
-                  href="https://wa.me/966500000000?text=أرغب%20بطلب%20استشارة%20مجانية"
+                  href={whatsappWithMessage('أرغب بطلب استشارة مجانية')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full border border-gold py-3 text-sm font-bold text-gold transition hover:bg-gold/10"
@@ -401,11 +408,13 @@ export default function PropertyDetailPage() {
               <ul className="space-y-2 text-right text-sm text-ink/75">
                 <li className="flex items-center gap-2">
                   <Phone size={14} className="text-gold" />
-                  <span dir="ltr">+966 50 000 0000</span>
+                  <a href={TEL_HREF} dir="ltr" className="hover:text-gold">
+                    {TEL_DISPLAY}
+                  </a>
                 </li>
                 <li className="flex items-center gap-2">
                   <MapPin size={14} className="text-gold" />
-                  <span>الرياض، المملكة العربية السعودية</span>
+                  <span>{ADDRESS}</span>
                 </li>
               </ul>
             </div>
@@ -468,7 +477,9 @@ export default function PropertyDetailPage() {
             تواصل معنا الآن للحصول على التفاصيل الكاملة أو حجز زيارة ميدانية.
           </p>
           <a
-            href={`tel:${TEL}`}
+            href={whatsappWithMessage(generalMsg)}
+            target="_blank"
+            rel="noopener noreferrer"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3.5 text-[15px] font-semibold text-white shadow-lg transition hover:bg-gold-light"
           >
             <Phone size={16} className="rotate-[12deg]" />

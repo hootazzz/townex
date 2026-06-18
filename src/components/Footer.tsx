@@ -1,8 +1,15 @@
-import { Phone, Mail, MapPin, MessageCircle, Linkedin, Twitter, Ghost } from 'lucide-react';
-
-const TEL_DISPLAY = '+966 11 123 4567';
-const TEL = '+966111234567';
-const EMAIL = 'info@townx.sa';
+import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react';
+import TikTokIcon from './icons/TikTokIcon';
+import {
+  TEL,
+  TEL_DISPLAY,
+  TEL_HREF,
+  WHATSAPP_HREF,
+  TIKTOK_HREF,
+  EMAIL,
+  EMAIL_HREF,
+  ADDRESS,
+} from '../data/contact';
 
 const SERVICES = [
   'تطوير المشاريع العقارية',
@@ -17,16 +24,18 @@ const QUICK_LINKS = [
   { label: 'الرئيسية', href: '#home' },
   { label: 'من نحن', href: '#about' },
   { label: 'خدماتنا', href: '#services' },
-  { label: 'مشاريعنا', href: '#about' },
+  { label: 'مشاريعنا', href: '#offers' },
   { label: 'العروض', href: '#offers' },
   { label: 'تواصل معنا', href: '#contact' },
 ];
 
-const SOCIALS = [
-  { Icon: MessageCircle, label: 'واتساب', href: 'https://wa.me/966500000000' },
-  { Icon: Linkedin, label: 'لينكدإن', href: 'https://www.linkedin.com/' },
-  { Icon: Twitter, label: 'تويتر', href: 'https://twitter.com/' },
-  { Icon: Ghost, label: 'سناب شات', href: 'https://www.snapchat.com/' },
+type Social =
+  | { kind: 'whatsapp'; label: string; href: string }
+  | { kind: 'tiktok'; label: string; href: string };
+
+const SOCIALS: Social[] = [
+  { kind: 'whatsapp', label: 'واتساب', href: WHATSAPP_HREF },
+  { kind: 'tiktok', label: 'تيك توك', href: TIKTOK_HREF },
 ];
 
 export default function Footer() {
@@ -87,33 +96,45 @@ export default function Footer() {
             <ul className="mt-5 space-y-3 text-[13px]">
               <li className="flex items-center gap-2 text-white/70">
                 <Phone size={14} className="text-gold" />
-                <a href={`tel:${TEL}`} dir="ltr" className="hover:text-gold">
+                <a href={TEL_HREF} dir="ltr" className="hover:text-gold">
+                  {TEL_DISPLAY}
+                </a>
+              </li>
+              <li className="flex items-center gap-2 text-white/70">
+                <MessageCircle size={14} className="text-gold" />
+                <a
+                  href={WHATSAPP_HREF}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  dir="ltr"
+                  className="hover:text-gold"
+                >
                   {TEL_DISPLAY}
                 </a>
               </li>
               <li className="flex items-center gap-2 text-white/70">
                 <Mail size={14} className="text-gold" />
-                <a href={`mailto:${EMAIL}`} className="hover:text-gold">
+                <a href={EMAIL_HREF} className="hover:text-gold">
                   {EMAIL}
                 </a>
               </li>
               <li className="flex items-center gap-2 text-white/70">
                 <MapPin size={14} className="text-gold" />
-                <span>الرياض، المملكة العربية السعودية</span>
+                <span>{ADDRESS}</span>
               </li>
             </ul>
 
             <div className="mt-5 flex gap-2">
-              {SOCIALS.map(({ Icon, label, href }) => (
+              {SOCIALS.map((s) => (
                 <a
-                  key={label}
-                  href={href}
+                  key={s.kind}
+                  href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label={label}
+                  aria-label={s.label}
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 transition hover:bg-gold hover:text-white"
                 >
-                  <Icon size={15} />
+                  {s.kind === 'whatsapp' ? <MessageCircle size={15} /> : <TikTokIcon size={15} />}
                 </a>
               ))}
             </div>
@@ -129,3 +150,4 @@ export default function Footer() {
     </footer>
   );
 }
+

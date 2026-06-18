@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Phone, Menu } from 'lucide-react';
 import Logo from './Logo';
 import MobileDrawer, { type NavItem } from './MobileDrawer';
+import { WHATSAPP_HREF } from '../data/contact';
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'الرئيسية', href: '#home' },
@@ -12,7 +13,8 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'تواصل معنا', href: '#contact' },
 ];
 
-const TEL_HREF = 'tel:+966500000000';
+// Primary CTAs across the site open WhatsApp rather than dialing a number.
+const CTA_HREF = WHATSAPP_HREF;
 
 function useActiveSection() {
   const [active, setActive] = useState<string>('home');
@@ -87,7 +89,9 @@ export default function Navbar() {
           </nav>
 
           <a
-            href={TEL_HREF}
+            href={CTA_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
             className="hidden items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-gold-light lg:inline-flex"
           >
             <Phone size={16} className="rotate-[12deg]" />
@@ -101,7 +105,7 @@ export default function Navbar() {
         onClose={() => setOpen(false)}
         items={NAV_ITEMS}
         activeHref={activeHref}
-        telHref={TEL_HREF}
+        ctaHref={CTA_HREF}
       />
     </>
   );

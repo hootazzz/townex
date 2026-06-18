@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Phone, Menu } from 'lucide-react';
 import MobileDrawer, { type NavItem } from './MobileDrawer';
-
-const TEL = '+966111234567';
+import { WHATSAPP_HREF } from '../data/contact';
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'الرئيسية', href: '#home' },
@@ -12,6 +11,8 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'العروض', href: '#offers' },
   { label: 'تواصل معنا', href: '#contact' },
 ];
+
+const CTA_HREF = WHATSAPP_HREF;
 
 type Props = {
   active: 'home' | 'about' | 'services' | 'offers' | 'contact';
@@ -77,7 +78,9 @@ export default function SolidNavbar({ active }: Props) {
           </nav>
 
           <a
-            href={`tel:${TEL}`}
+            href={CTA_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-gold-light"
           >
             <Phone size={16} className="rotate-[12deg]" />
@@ -91,7 +94,7 @@ export default function SolidNavbar({ active }: Props) {
         onClose={() => setOpen(false)}
         items={NAV_ITEMS}
         activeHref={activeHref}
-        telHref={`tel:${TEL}`}
+        ctaHref={CTA_HREF}
       />
     </>
   );

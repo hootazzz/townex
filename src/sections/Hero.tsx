@@ -62,7 +62,9 @@ export default function Hero() {
 
         <div className="mt-12 flex w-full flex-col items-center gap-3.5">
           <a
-            href="tel:+966500000000"
+            href="https://wa.me/966501000460"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex w-full max-w-[280px] items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-[14px] font-semibold text-white shadow-lg active:bg-gold-light"
           >
             <Phone size={15} className="rotate-[12deg]" />
@@ -103,7 +105,9 @@ export default function Hero() {
               <span>استعرض العروض</span>
             </a>
             <a
-              href="tel:+966500000000"
+              href="https://wa.me/966501000460"
+            target="_blank"
+            rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-[14px] font-semibold text-white shadow-lg transition hover:bg-gold-light"
             >
               <Phone size={15} className="rotate-[12deg]" />

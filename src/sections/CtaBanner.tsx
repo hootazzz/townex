@@ -23,7 +23,9 @@ export default function CtaBanner() {
           تواصل معنا اليوم ودعنا نساعدك في تحقيق أهدافك العقارية
         </p>
         <a
-          href="tel:+966500000000"
+          href="https://wa.me/966501000460"
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-8 inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3.5 text-[15px] font-semibold text-white shadow-lg transition hover:bg-gold-light"
         >
           <Phone size={16} className="rotate-[12deg]" />

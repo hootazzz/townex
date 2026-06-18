@@ -17,8 +17,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import SolidNavbar from '../components/SolidNavbar';
 import Footer from '../components/Footer';
-
-const TEL = '+966111234567';
+import { WHATSAPP_HREF } from '../data/contact';
 
 const HERO_IMG =
   'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=2000&q=80';
@@ -261,7 +260,9 @@ export default function AboutPage() {
             </p>
           </div>
           <a
-            href={`tel:${TEL}`}
+            href={WHATSAPP_HREF}
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-full bg-gold px-8 py-3.5 text-[15px] font-semibold text-white shadow-lg transition hover:bg-gold-light md:order-1"
           >
             <Phone size={16} className="rotate-[12deg]" />

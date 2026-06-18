@@ -8,10 +8,13 @@ type Props = {
   onClose: () => void;
   items: NavItem[];
   activeHref?: string;
-  telHref: string;
+  /** URL the bottom CTA opens (WhatsApp on this site). External link by default. */
+  ctaHref: string;
+  /** Whether the CTA target opens in a new tab. Defaults to true for external URLs. */
+  ctaExternal?: boolean;
 };
 
-export default function MobileDrawer({ open, onClose, items, activeHref, telHref }: Props) {
+export default function MobileDrawer({ open, onClose, items, activeHref, ctaHref, ctaExternal = true }: Props) {
   // Lock body scroll while open + close on Escape
   useEffect(() => {
     if (!open) return;
@@ -83,8 +86,10 @@ export default function MobileDrawer({ open, onClose, items, activeHref, telHref
         </nav>
 
         <a
-          href={telHref}
+          href={ctaHref}
           onClick={onClose}
+          target={ctaExternal ? '_blank' : undefined}
+          rel={ctaExternal ? 'noopener noreferrer' : undefined}
           className="mx-5 mt-auto mb-8 inline-flex items-center justify-center gap-2 rounded-full bg-gold px-6 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-gold-light"
         >
           <Phone size={16} className="rotate-[12deg]" />
