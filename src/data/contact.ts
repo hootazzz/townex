@@ -19,4 +19,6 @@ export const TIKTOK_HREF = 'https://www.tiktok.com/@vt.d2030_0';
 export const EMAIL = 'info@townx.sa';
 export const EMAIL_HREF = `mailto:${EMAIL}`;
 
-export const ADDRESS = 'الرياض، المملكة العربية السعودية';
+export const ADDRESS = 'حي البيان، الرياض، المملكة العربية السعودية';
+export const ADDRESS_DISTRICT = 'حي البيان';
+export const ADDRESS_CITY = 'الرياض، المملكة العربية السعودية';

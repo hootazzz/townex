@@ -21,7 +21,8 @@ import {
   TIKTOK_HREF,
   EMAIL,
   EMAIL_HREF,
-  ADDRESS,
+  ADDRESS_CITY,
+  ADDRESS_DISTRICT,
 } from '../data/contact';
 
 type Social = {
@@ -290,8 +291,8 @@ function ContactInfo() {
             <MapPin size={15} />
           </span>
           <div>
-            <div className="text-[14px] font-bold text-ink">{ADDRESS}</div>
-            <div className="text-[11.5px] text-ink/55">حي الملك عبد الله المالي</div>
+            <div className="text-[14px] font-bold text-ink">{ADDRESS_CITY}</div>
+            <div className="text-[11.5px] text-ink/55">{ADDRESS_DISTRICT}</div>
           </div>
         </li>
         <li className="flex items-start gap-3">
