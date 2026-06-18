@@ -1,5 +1,5 @@
 export type Listing = 'sale' | 'rent' | 'invest';
-export type PType = 'فيلا' | 'شقة' | 'أرض' | 'مكتب' | 'عمارة' | 'تاون هاوس';
+export type PType = 'فيلا' | 'شقة' | 'دور' | 'أرض' | 'مكتب' | 'عمارة' | 'مشروع استثماري';
 
 export type Property = {
   id: string;
@@ -81,11 +81,11 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: 'townhouse-yasmin-04',
-    title: 'تاون هاوس فاخر',
+    title: 'دور فاخر',
     city: 'الرياض',
     district: 'الياسمين',
     listing: 'sale',
-    type: 'تاون هاوس',
+    type: 'دور',
     area: 250,
     price: 2650000,
     rooms: 4,
