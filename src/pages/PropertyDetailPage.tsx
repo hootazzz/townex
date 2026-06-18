@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import {
-  ArrowRight,
   Share2,
   BedDouble,
   Bath,
@@ -21,6 +20,7 @@ import {
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import Footer from '../components/Footer';
+import SolidNavbar from '../components/SolidNavbar';
 import { getProperty, getSimilar, LISTING_LABEL, PROPERTIES, type Property } from '../data/properties';
 
 const TEL = '+966500000000';
@@ -142,20 +142,7 @@ export default function PropertyDetailPage() {
 
   return (
     <div dir="rtl" className="bg-cream font-cairo text-ink">
-      <header className="border-b border-black/5 bg-white">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-4 md:px-10">
-          <a href="#home" className="text-2xl font-extrabold tracking-wide text-ink">
-            TOWN<span className="text-gold">X</span>
-          </a>
-          <a
-            href="#offers"
-            className="inline-flex items-center gap-1 text-sm font-semibold text-ink/70 hover:text-gold"
-          >
-            <span>العودة للعروض</span>
-            <ArrowRight size={16} />
-          </a>
-        </div>
-      </header>
+      <SolidNavbar active="offers" />
 
       <main className="mx-auto max-w-[1400px] px-5 py-10 md:px-10 md:py-12">
         {/* 1. Hero Gallery */}
