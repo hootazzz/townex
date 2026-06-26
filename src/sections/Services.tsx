@@ -4,7 +4,7 @@ import { SERVICES } from '../data/services';
 // hero images on each detail page).
 const CARD_IMAGE: Record<string, string> = {
   'real-estate-marketing':
-    'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=900&q=80',
+    'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=900&q=80',
   'property-management':
     'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?auto=format&fit=crop&w=900&q=80',
   'design-build':

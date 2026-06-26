@@ -49,7 +49,7 @@ export const SERVICES: Service[] = [
       'نساعدك في الوصول إلى المشترين والمستثمرين المناسبين من خلال استراتيجيات تسويقية احترافية مدعومة بفهم عميق للسوق العقاري السعودي.',
     Icon: Megaphone,
     heroImage:
-      'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=2000&q=80',
+      'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=2000&q=80',
     benefits: [
       { Icon: BarChart3, label: 'زيادة فرص البيع' },
       { Icon: Users, label: 'الوصول للعملاء المستهدفين' },
