@@ -15,31 +15,32 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import SolidNavbar from '../components/SolidNavbar';
 import Footer from '../components/Footer';
-import { PROPERTIES, LISTING_LABEL, type Listing, type Property } from '../data/properties';
+import type { Property, PropertyPurpose } from '../types/property';
+import { PURPOSE_LABEL, PROPERTY_TYPES, propertyLocation } from '../models/property.model';
+import { PropertyService } from '../services/PropertyService';
 import { WHATSAPP_HREF } from '../data/contact';
+import { formatPrice } from '../utils/format';
+import { AREA_OPTIONS, PRICE_OPTIONS, SORT_OPTIONS, areaBounds, priceBounds, sortValue } from '../lib/propertyQuery';
+
 const SKYLINE_IMG =
   'https://images.unsplash.com/photo-1604595568318-cea99fef25c4?auto=format&fit=crop&w=2400&q=80';
 const HERO_IMG =
   'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=80';
 
-const TABS: { id: 'all' | Listing; label: string }[] = [
+const TABS: { id: 'all' | PropertyPurpose; label: string }[] = [
   { id: 'all', label: 'الكل' },
   { id: 'sale', label: 'للبيع' },
   { id: 'rent', label: 'للإيجار' },
   { id: 'invest', label: 'استثمار' },
 ];
 
-const TYPES = ['الكل', 'فيلا', 'شقة', 'دور', 'أرض', 'مكتب', 'عمارة', 'مشروع استثماري'] as const;
+const TYPES = ['الكل', ...PROPERTY_TYPES] as const;
 const CITIES = ['الكل', 'الرياض', 'جدة', 'الدمام', 'مكة', 'المدينة'] as const;
-const AREAS = ['الكل', 'حتى 200م²', '200م² - 500م²', '500م² - 1000م²', 'أكثر من 1000م²'] as const;
-const PRICES = ['الكل', 'حتى 500 ألف', '500 ألف - 2 مليون', '2 - 5 مليون', 'أكثر من 5 مليون'] as const;
-const SORTS = ['الأحدث', 'السعر: الأقل', 'السعر: الأعلى', 'المساحة: الأكبر'] as const;
+const AREAS = AREA_OPTIONS;
+const PRICES = PRICE_OPTIONS;
+const SORTS = SORT_OPTIONS;
 
 const PER_PAGE = 6;
-
-function formatPrice(n: number) {
-  return new Intl.NumberFormat('en-US').format(n);
-}
 
 /* ----------------------- Select (custom-styled native) ----------------------- */
 
@@ -81,10 +82,10 @@ function Select({
 function MetaRow({ p }: { p: Property }) {
   const items: { Icon: LucideIcon; value: string }[] = [];
   items.push({ Icon: Maximize, value: `${p.area}م²` });
-  if (p.rooms) items.push({ Icon: BedDouble, value: `${p.rooms} غرف` });
-  if (p.baths) items.push({ Icon: Bath, value: `${p.baths} دورات مياه` });
-  if (p.usage) items.push({ Icon: Building2, value: p.usage });
-  if (p.parking) items.push({ Icon: Car, value: p.parking });
+  if (p.bedrooms) items.push({ Icon: BedDouble, value: `${p.bedrooms} غرف` });
+  if (p.bathrooms) items.push({ Icon: Bath, value: `${p.bathrooms} دورات مياه` });
+  if (!p.bedrooms) items.push({ Icon: Building2, value: p.type });
+  if (p.parking) items.push({ Icon: Car, value: `${p.parking} مواقف` });
   return (
     <ul className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2 text-[11.5px] text-ink/65">
       {items.slice(0, 4).map(({ Icon, value }, i) => (
@@ -103,14 +104,14 @@ function PropertyCard({ p }: { p: Property }) {
     <article className="group overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-black/5 transition hover:shadow-lg">
       <div className="relative h-52 w-full">
         <img
-          src={p.image}
+          src={p.coverImage}
           alt={`${p.title} — ${p.city}`}
           loading="lazy"
           decoding="async"
           className="h-full w-full object-cover transition group-hover:scale-[1.03]"
         />
         <span className="absolute right-4 top-4 rounded-md bg-ink/85 px-3 py-1 text-[11px] font-semibold text-gold backdrop-blur">
-          {LISTING_LABEL[p.listing]}
+          {PURPOSE_LABEL[p.purpose]}
         </span>
         <button
           type="button"
@@ -130,7 +131,7 @@ function PropertyCard({ p }: { p: Property }) {
         <h3 className="text-base font-bold text-ink">{p.title}</h3>
         <p className="mt-1 inline-flex items-center gap-1 text-[12px] text-ink/60">
           <MapPin size={12} className="text-gold" />
-          {p.city} - {p.district}
+          {propertyLocation(p)}
         </p>
 
         <div className="my-4 border-t border-black/5 pt-3">
@@ -167,7 +168,7 @@ export default function PropertiesPage() {
     };
   }, []);
 
-  const [tab, setTab] = useState<'all' | Listing>('all');
+  const [tab, setTab] = useState<'all' | PropertyPurpose>('all');
   const [type, setType] = useState('');
   const [city, setCity] = useState('');
   const [area, setArea] = useState('');
@@ -176,44 +177,19 @@ export default function PropertiesPage() {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
 
-  const filtered = useMemo(() => {
-    let list = PROPERTIES.slice();
-    if (tab !== 'all') list = list.filter((p) => p.listing === tab);
-    if (type && type !== 'الكل') list = list.filter((p) => p.type === type);
-    if (city && city !== 'الكل') list = list.filter((p) => p.city === city);
-    if (query.trim()) {
-      const q = query.trim();
-      list = list.filter(
-        (p) =>
-          p.title.includes(q) ||
-          p.district.includes(q) ||
-          p.city.includes(q) ||
-          p.type.includes(q)
-      );
-    }
-    if (area && area !== 'الكل') {
-      list = list.filter((p) => {
-        if (area === 'حتى 200م²') return p.area <= 200;
-        if (area === '200م² - 500م²') return p.area > 200 && p.area <= 500;
-        if (area === '500م² - 1000م²') return p.area > 500 && p.area <= 1000;
-        if (area === 'أكثر من 1000م²') return p.area > 1000;
-        return true;
-      });
-    }
-    if (price && price !== 'الكل') {
-      list = list.filter((p) => {
-        if (price === 'حتى 500 ألف') return p.price <= 500_000;
-        if (price === '500 ألف - 2 مليون') return p.price > 500_000 && p.price <= 2_000_000;
-        if (price === '2 - 5 مليون') return p.price > 2_000_000 && p.price <= 5_000_000;
-        if (price === 'أكثر من 5 مليون') return p.price > 5_000_000;
-        return true;
-      });
-    }
-    if (sort === 'السعر: الأقل') list.sort((a, b) => a.price - b.price);
-    else if (sort === 'السعر: الأعلى') list.sort((a, b) => b.price - a.price);
-    else if (sort === 'المساحة: الأكبر') list.sort((a, b) => b.area - a.area);
-    return list;
-  }, [tab, type, city, area, price, sort, query]);
+  const filtered = useMemo(
+    () =>
+      PropertyService.query({
+        purpose: tab,
+        type: type && type !== 'الكل' ? (type as Property['type']) : 'all',
+        city: city && city !== 'الكل' ? city : 'all',
+        search: query,
+        sort: sortValue(sort),
+        ...areaBounds(area),
+        ...priceBounds(price),
+      }),
+    [tab, type, city, area, price, sort, query]
+  );
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
   const safePage = Math.min(page, totalPages);

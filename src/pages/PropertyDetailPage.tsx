@@ -28,7 +28,10 @@ import {
   whatsappWithMessage,
   ADDRESS,
 } from '../data/contact';
-import { getProperty, getSimilar, LISTING_LABEL, PROPERTIES, type Property } from '../data/properties';
+import type { Property } from '../types/property';
+import { PURPOSE_LABEL, propertyLocation } from '../models/property.model';
+import { PropertyService } from '../services/PropertyService';
+import { formatPrice } from '../utils/format';
 
 
 const AMENITIES = [
@@ -95,10 +98,6 @@ function getIdFromHash(): string {
   return hash.startsWith('property/') ? hash.slice('property/'.length) : '';
 }
 
-function formatPrice(n: number) {
-  return new Intl.NumberFormat('en-US').format(n);
-}
-
 export default function PropertyDetailPage() {
   const [id, setId] = useState<string>(() => getIdFromHash());
 
@@ -108,7 +107,7 @@ export default function PropertyDetailPage() {
     return () => window.removeEventListener('hashchange', onHash);
   }, []);
 
-  const property = getProperty(id) || PROPERTIES[0];
+  const property = PropertyService.getBySlug(id) ?? PropertyService.getAll()[0];
 
   useEffect(() => {
     const previous = document.title;
@@ -118,31 +117,30 @@ export default function PropertyDetailPage() {
     };
   }, [property.title]);
 
-  const gallery = property.gallery || [property.image];
+  const gallery = property.gallery.length ? property.gallery : [property.coverImage];
   const [active, setActive] = useState(0);
   // Reset active gallery image when navigating between properties
   useEffect(() => setActive(0), [property.id]);
 
   const quickFacts: { Icon: LucideIcon; label: string; value: string }[] = [
     { Icon: Maximize, label: 'المساحة', value: `${property.area} م²` },
-    ...(property.rooms ? [{ Icon: BedDouble, label: 'غرف النوم', value: String(property.rooms) }] : []),
-    ...(property.baths ? [{ Icon: Bath, label: 'دورات المياه', value: String(property.baths) }] : []),
-    ...(property.parking ? [{ Icon: Car, label: 'الإضافات', value: property.parking }] : []),
+    ...(property.bedrooms ? [{ Icon: BedDouble, label: 'غرف النوم', value: String(property.bedrooms) }] : []),
+    ...(property.bathrooms ? [{ Icon: Bath, label: 'دورات المياه', value: String(property.bathrooms) }] : []),
+    ...(property.parking ? [{ Icon: Car, label: 'المواقف', value: String(property.parking) }] : []),
     { Icon: Home, label: 'نوع العقار', value: property.type },
   ];
 
   const specs: { label: string; value: string }[] = [
     { label: 'سنة البناء', value: property.yearBuilt || '—' },
-    { label: 'حالة العقار', value: LISTING_LABEL[property.listing] },
+    { label: 'حالة العقار', value: PURPOSE_LABEL[property.purpose] },
     { label: 'نوع العقار', value: property.type },
     { label: 'المساحة', value: `${property.area} م²` },
-    ...(property.rooms ? [{ label: 'عدد الغرف', value: String(property.rooms) }] : []),
-    ...(property.baths ? [{ label: 'دورات المياه', value: String(property.baths) }] : []),
-    ...(property.usage ? [{ label: 'الاستخدام', value: property.usage }] : []),
+    ...(property.bedrooms ? [{ label: 'عدد الغرف', value: String(property.bedrooms) }] : []),
+    ...(property.bathrooms ? [{ label: 'دورات المياه', value: String(property.bathrooms) }] : []),
     { label: 'المدينة', value: property.city },
   ];
 
-  const similar = getSimilar(property.id, 3);
+  const similar = PropertyService.getRelated(property.id, 3);
 
   const viewingMsg = `أرغب بطلب معاينة لـ ${property.title}`;
   const generalMsg = `استفسار عن ${property.title}`;
@@ -162,7 +160,7 @@ export default function PropertyDetailPage() {
               className="h-[320px] w-full object-cover md:h-[520px]"
             />
             <span className="absolute right-5 top-5 rounded-md bg-ink/85 px-3 py-1.5 text-xs font-bold text-gold backdrop-blur">
-              {LISTING_LABEL[property.listing]}
+              {PURPOSE_LABEL[property.purpose]}
             </span>
             <button
               type="button"
@@ -218,7 +216,7 @@ export default function PropertyDetailPage() {
                   <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-ink/65">
                     <MapPin size={14} className="text-gold" />
                     <span>
-                      {property.city} - {property.district}
+                      {propertyLocation(property)}
                     </span>
                   </p>
                 </div>
@@ -230,7 +228,7 @@ export default function PropertyDetailPage() {
                     <div className="mt-0.5 text-xs text-ink/55">{property.priceSuffix}</div>
                   )}
                   <span className="mt-2 inline-block rounded-md bg-gold/10 px-2.5 py-1 text-xs font-bold text-gold">
-                    {LISTING_LABEL[property.listing]}
+                    {PURPOSE_LABEL[property.purpose]}
                   </span>
                 </div>
               </div>
@@ -258,7 +256,7 @@ export default function PropertyDetailPage() {
               <h2 className="mb-4 text-xl font-bold">وصف العقار</h2>
               <div className="rounded-2xl bg-white p-6 leading-[2] text-ink/80 shadow-sm ring-1 ring-black/5 md:p-8">
                 <p>
-                  {property.title} — عقار مميز يقع في {property.city} - {property.district}, بمساحة {property.area}م² وبتشطيبات راقية تلبي ذوق المستثمرين والعملاء المهتمين بالعقارات ذات الجودة العالية.
+                  {property.title} — عقار مميز يقع في {propertyLocation(property)}, بمساحة {property.area}م² وبتشطيبات راقية تلبي ذوق المستثمرين والعملاء المهتمين بالعقارات ذات الجودة العالية.
                 </p>
                 <p className="mt-4">
                   تتميز المنطقة بقربها من المرافق الحيوية وسهولة الوصول للطرق السريعة والمراكز التجارية الكبرى، وتعد فرصة استثمارية مميزة بمواصفات مدروسة بعناية.
@@ -435,7 +433,7 @@ export default function PropertyDetailPage() {
                 >
                   <div className="h-48 w-full overflow-hidden">
                     <img
-                      src={p.image}
+                      src={p.coverImage}
                       alt={`${p.title} — ${p.city}`}
                       loading="lazy"
                       decoding="async"
@@ -446,7 +444,7 @@ export default function PropertyDetailPage() {
                     <h3 className="text-lg font-bold">{p.title}</h3>
                     <p className="mt-1 inline-flex items-center gap-1 text-xs text-ink/65">
                       <MapPin size={12} className="text-gold" />
-                      {p.city} - {p.district}
+                      {propertyLocation(p)}
                     </p>
                     <div className="mt-3 text-lg font-extrabold text-gold">
                       {formatPrice(p.price)} <span className="text-sm">ر.س</span>

@@ -1,45 +1,32 @@
-export type Listing = 'sale' | 'rent' | 'invest';
-export type PType = 'فيلا' | 'شقة' | 'دور' | 'أرض' | 'مكتب' | 'عمارة' | 'مشروع استثماري';
+import type { RawProperty } from '../models/property.model';
 
-export type Property = {
-  id: string;
-  title: string;
-  city: string;
-  district: string;
-  listing: Listing;
-  type: PType;
-  area: number;
-  price: number;
-  priceSuffix?: string;
-  rooms?: number;
-  baths?: number;
-  parking?: string;
-  usage?: string;
-  yearBuilt?: string;
-  image: string;
-  gallery?: string[];
-};
+// ────────────────────────────────────────────────────────────────────────────
+// Local seed data. This is the ONLY file that holds raw property records today.
+// To move to a backend later, leave this untouched (or empty it) and point the
+// repository in src/api/ at the live source — nothing else needs to change.
+// ────────────────────────────────────────────────────────────────────────────
 
-export const LISTING_LABEL: Record<Listing, string> = {
-  sale: 'للبيع',
-  rent: 'للإيجار',
-  invest: 'فرصة استثمارية',
-};
-
-export const PROPERTIES: Property[] = [
+export const PROPERTY_SEED: RawProperty[] = [
   {
     id: 'villa-narjis-01',
     title: 'فيلا فاخرة في النرجس',
+    shortDescription: 'فيلا عصرية بتشطيبات راقية في حي النرجس شمال الرياض.',
+    description:
+      'فيلا فاخرة بمساحة 450م² في حي النرجس، تصميم معماري حديث ومساحات داخلية واسعة تناسب العائلات، مع تشطيبات عالية الجودة وموقع مميز قريب من الخدمات.',
+    type: 'فيلا',
+    purpose: 'sale',
+    status: 'available',
+    price: 4200000,
     city: 'الرياض',
     district: 'النرجس',
-    listing: 'sale',
-    type: 'فيلا',
+    bedrooms: 5,
+    bathrooms: 7,
     area: 450,
-    price: 4200000,
-    rooms: 5,
-    baths: 7,
+    parking: 3,
     yearBuilt: '2024',
-    image:
+    featured: true,
+    features: ['مسبح خاص', 'مجلس', 'حديقة', 'مصعد', 'مطبخ مجهز'],
+    coverImage:
       'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80',
     gallery: [
       'https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1800&q=80',
@@ -47,97 +34,125 @@ export const PROPERTIES: Property[] = [
       'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80',
       'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=900&q=80',
     ],
+    coordinates: { lat: 24.8247, lng: 46.628 },
+    createdAt: '2024-11-01T09:00:00.000Z',
   },
   {
     id: 'apt-malqa-02',
     title: 'شقة فاخرة في الملقا',
-    city: 'الرياض',
-    district: 'الملقا',
-    listing: 'rent',
+    shortDescription: 'شقة سكنية أنيقة للإيجار في حي الملقا.',
+    description:
+      'شقة فاخرة بمساحة 180م² في حي الملقا، بإطلالة مميزة وتشطيبات راقية، قريبة من المرافق الحيوية والمراكز التجارية.',
     type: 'شقة',
-    area: 180,
+    purpose: 'rent',
+    status: 'available',
     price: 120000,
     priceSuffix: '/ سنوياً',
-    rooms: 3,
-    baths: 4,
+    city: 'الرياض',
+    district: 'الملقا',
+    bedrooms: 3,
+    bathrooms: 4,
+    area: 180,
+    parking: 2,
     yearBuilt: '2023',
-    image:
+    features: ['مطبخ مجهز', 'تكييف مركزي', 'موقف مغطى'],
+    coverImage:
       'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80',
+    coordinates: { lat: 24.7869, lng: 46.6098 },
+    createdAt: '2024-10-12T09:00:00.000Z',
   },
   {
     id: 'invest-jeddah-03',
     title: 'مبنى تجاري استثماري',
+    shortDescription: 'مبنى تجاري بعائد استثماري مميز على شارع التحلية بجدة.',
+    description:
+      'مبنى تجاري استثماري بمساحة 2250م² مكوّن من 4 أدوار على شارع التحلية بجدة، موقع حيوي وعائد إيجاري مرتفع، فرصة مثالية للمستثمرين.',
+    type: 'عمارة',
+    purpose: 'invest',
+    status: 'available',
+    price: 16500000,
     city: 'جدة',
     district: 'شارع التحلية',
-    listing: 'invest',
-    type: 'عمارة',
+    bedrooms: 0,
+    bathrooms: 0,
     area: 2250,
-    price: 16500000,
-    parking: 'مواقف خاصة',
-    usage: '4 أدوار',
+    parking: 20,
     yearBuilt: '2022',
-    image:
+    featured: true,
+    features: ['4 أدوار', 'مواقف خاصة', 'واجهة تجارية', 'مصاعد'],
+    coverImage:
       'https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1200&q=80',
+    coordinates: { lat: 21.5922, lng: 39.1611 },
+    createdAt: '2024-09-20T09:00:00.000Z',
   },
   {
     id: 'townhouse-yasmin-04',
     title: 'دور فاخر',
+    shortDescription: 'دور سكني فاخر بمدخل خاص في حي الياسمين.',
+    description:
+      'دور فاخر بمساحة 250م² في حي الياسمين بمدخل مستقل وتشطيبات عالية الجودة، مناسب للعائلات الباحثة عن الخصوصية والراحة.',
+    type: 'دور',
+    purpose: 'sale',
+    status: 'available',
+    price: 2650000,
     city: 'الرياض',
     district: 'الياسمين',
-    listing: 'sale',
-    type: 'دور',
+    bedrooms: 4,
+    bathrooms: 5,
     area: 250,
-    price: 2650000,
-    rooms: 4,
-    baths: 5,
+    parking: 2,
     yearBuilt: '2024',
-    image:
+    features: ['مدخل خاص', 'سطح خاص', 'مطبخ مجهز'],
+    coverImage:
       'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80',
+    coordinates: { lat: 24.8331, lng: 46.6353 },
+    createdAt: '2024-08-05T09:00:00.000Z',
   },
   {
     id: 'office-olaya-05',
     title: 'مكتب إداري راقي',
-    city: 'الرياض',
-    district: 'العليا',
-    listing: 'rent',
+    shortDescription: 'مكتب إداري بتصميم مفتوح في حي العليا.',
+    description:
+      'مكتب إداري راقي بمساحة 110م² في حي العليا بتصميم مفتوح وموقع مركزي، مناسب للشركات الناشئة والمكاتب المهنية.',
     type: 'مكتب',
-    area: 110,
+    purpose: 'rent',
+    status: 'available',
     price: 85000,
     priceSuffix: '/ سنوياً',
-    usage: 'مكتب مفتوح',
-    parking: 'دورة مياه',
+    city: 'الرياض',
+    district: 'العليا',
+    bedrooms: 0,
+    bathrooms: 1,
+    area: 110,
+    parking: 5,
     yearBuilt: '2023',
-    image:
+    features: ['مكتب مفتوح', 'دورة مياه', 'موقف سيارات'],
+    coverImage:
       'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80',
+    coordinates: { lat: 24.6907, lng: 46.6857 },
+    createdAt: '2024-07-18T09:00:00.000Z',
   },
   {
     id: 'land-north-06',
     title: 'أرض سكنية استثمارية',
+    shortDescription: 'أرض سكنية على شارع عريض شمال الرياض.',
+    description:
+      'أرض سكنية استثمارية بمساحة 600م² شمال الرياض على شارع 20م، في موقع نامٍ سريع التطور، فرصة استثمارية واعدة.',
+    type: 'أرض',
+    purpose: 'invest',
+    status: 'available',
+    price: 3900000,
     city: 'الرياض',
     district: 'شمال الرياض',
-    listing: 'invest',
-    type: 'أرض',
+    bedrooms: 0,
+    bathrooms: 0,
     area: 600,
-    price: 3900000,
-    usage: 'سكني',
-    parking: 'شارع 20م',
-    image:
+    parking: 0,
+    yearBuilt: '',
+    features: ['سكني', 'شارع 20م', 'موقع مميز'],
+    coverImage:
       'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1200&q=80',
+    coordinates: { lat: 24.9123, lng: 46.6402 },
+    createdAt: '2024-06-30T09:00:00.000Z',
   },
 ];
-
-export function getProperty(id: string): Property | undefined {
-  return PROPERTIES.find((p) => p.id === id);
-}
-
-export function getSimilar(id: string, count = 3): Property[] {
-  const current = getProperty(id);
-  if (!current) return PROPERTIES.slice(0, count);
-  return PROPERTIES.filter((p) => p.id !== id)
-    .sort((a, b) => {
-      const aMatch = (a.city === current.city ? 1 : 0) + (a.type === current.type ? 1 : 0);
-      const bMatch = (b.city === current.city ? 1 : 0) + (b.type === current.type ? 1 : 0);
-      return bMatch - aMatch;
-    })
-    .slice(0, count);
-}

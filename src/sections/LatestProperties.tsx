@@ -9,21 +9,23 @@ import {
   MapPin,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { PROPERTIES as ALL_PROPERTIES, LISTING_LABEL, type Property } from '../data/properties';
+import type { Property } from '../types/property';
+import { PURPOSE_LABEL, propertyLocation } from '../models/property.model';
+import { PropertyService } from '../services/PropertyService';
+import { formatPrice } from '../utils/format';
 
 type Meta = { Icon: LucideIcon; value: string };
 
 function metaFor(p: Property): Meta[] {
   const m: Meta[] = [{ Icon: Maximize, value: `${p.area}م²` }];
-  if (p.rooms) m.push({ Icon: BedDouble, value: `${p.rooms} غرف` });
-  if (p.baths) m.push({ Icon: Bath, value: `${p.baths} دورات` });
-  if (!p.rooms && p.usage) m.push({ Icon: Building2, value: p.usage });
-  if (!p.baths && p.parking) m.push({ Icon: MapPin, value: p.parking });
+  if (p.bedrooms) m.push({ Icon: BedDouble, value: `${p.bedrooms} غرف` });
+  if (p.bathrooms) m.push({ Icon: Bath, value: `${p.bathrooms} دورات` });
+  if (!p.bedrooms) m.push({ Icon: Building2, value: p.type });
+  if (!p.bathrooms && p.parking) m.push({ Icon: MapPin, value: `${p.parking} مواقف` });
   return m.slice(0, 3);
 }
 
-const HIGHLIGHTED_IDS = ['villa-narjis-01', 'invest-jeddah-03', 'land-north-06'];
-const PROPERTIES = HIGHLIGHTED_IDS.map((id) => ALL_PROPERTIES.find((p) => p.id === id)!).filter(Boolean);
+const PROPERTIES = PropertyService.getFeatured(3);
 
 export default function LatestProperties() {
   const trackRef = useRef<HTMLDivElement>(null);
@@ -152,7 +154,7 @@ export default function LatestProperties() {
           >
             {PROPERTIES.map((p) => {
               const meta = metaFor(p);
-              const location = `${p.city} - ${p.district}`;
+              const location = propertyLocation(p);
               return (
                 <a
                   key={p.id}
@@ -162,14 +164,14 @@ export default function LatestProperties() {
                 >
                   <div className="relative h-56 w-full">
                     <img
-                      src={p.image}
+                      src={p.coverImage}
                       alt={`${p.title} — ${location}`}
                       loading="lazy"
                       decoding="async"
                       className="h-full w-full object-cover"
                     />
                     <span className="absolute right-4 top-4 rounded-md bg-ink/85 px-3 py-1 text-xs font-semibold text-gold backdrop-blur">
-                      {LISTING_LABEL[p.listing]}
+                      {PURPOSE_LABEL[p.purpose]}
                     </span>
                   </div>
                   <div className="p-6 text-center">
@@ -186,7 +188,7 @@ export default function LatestProperties() {
                     </div>
 
                     <div className="border-t border-black/5 pt-4 text-lg font-extrabold text-gold">
-                      {new Intl.NumberFormat('en-US').format(p.price)} <span className="text-sm font-semibold">ر.س</span>
+                      {formatPrice(p.price)} <span className="text-sm font-semibold">ر.س</span>
                     </div>
                   </div>
                 </a>

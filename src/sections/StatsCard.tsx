@@ -6,19 +6,19 @@ type Stat = { Icon: LucideIcon; value: string; label: string };
 const STATS: Stat[] = [
   { Icon: Building2, value: '+750', label: 'عقار تم تسويقه' },
   { Icon: Construction, value: '+150', label: 'مشروع منفذ' },
-  { Icon: UserRound, value: '+600', label: 'عميل' },
-  { Icon: BadgeCheck, value: '15', label: 'سنة خبرة' },
+  { Icon: UserRound, value: '+1,200', label: 'عميل' },
+  { Icon: BadgeCheck, value: '+15', label: 'سنة خبرة' },
   { Icon: Users, value: 'فريق سعودي', label: 'خبرات متخصصة' },
 ];
 
 // Mobile 2x2 (Saudi-team cell omitted on mobile by design):
-//   750+ عقار   |  600+ عميل
-//   150+ مشروع  |  15 سنة خبرة
+//   750+ عقار   |  1,200+ عميل
+//   150+ مشروع  |  15+ سنة خبرة
 const MOBILE_STATS: { value: string; label: string }[] = [
   { value: '+750', label: 'عقار' },
-  { value: '+600', label: 'عميل' },
+  { value: '+1,200', label: 'عميل' },
   { value: '+150', label: 'مشروع' },
-  { value: '15', label: 'سنة خبرة' },
+  { value: '+15', label: 'سنة خبرة' },
 ];
 
 export default function StatsCard() {
