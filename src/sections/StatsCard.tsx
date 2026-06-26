@@ -1,23 +1,23 @@
-import { Building2, Construction, UserRound, BadgeCheck, Palmtree } from 'lucide-react';
+import { Building2, Construction, UserRound, BadgeCheck, Users } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 type Stat = { Icon: LucideIcon; value: string; label: string };
 
 const STATS: Stat[] = [
-  { Icon: Building2, value: '+500', label: 'عقار تم تسويقه' },
-  { Icon: Construction, value: '+100', label: 'مشروع منفذ' },
-  { Icon: UserRound, value: '+300', label: 'عميل' },
+  { Icon: Building2, value: '+750', label: 'عقار تم تسويقه' },
+  { Icon: Construction, value: '+150', label: 'مشروع منفذ' },
+  { Icon: UserRound, value: '+600', label: 'عميل' },
   { Icon: BadgeCheck, value: '15', label: 'سنة خبرة' },
-  { Icon: Palmtree, value: 'فريق سعودي', label: 'خبرات متخصصة' },
+  { Icon: Users, value: 'فريق سعودي', label: 'خبرات متخصصة' },
 ];
 
-// Order mandated by the design brief, with shortened mobile labels:
-//   500+ عقار   |  300+ عميل
-//   100+ مشروع  |  15 سنة خبرة
+// Mobile 2x2 (Saudi-team cell omitted on mobile by design):
+//   750+ عقار   |  600+ عميل
+//   150+ مشروع  |  15 سنة خبرة
 const MOBILE_STATS: { value: string; label: string }[] = [
-  { value: '+500', label: 'عقار' },
-  { value: '+300', label: 'عميل' },
-  { value: '+100', label: 'مشروع' },
+  { value: '+750', label: 'عقار' },
+  { value: '+600', label: 'عميل' },
+  { value: '+150', label: 'مشروع' },
   { value: '15', label: 'سنة خبرة' },
 ];
 
@@ -46,7 +46,7 @@ export default function StatsCard() {
       </div>
 
       {/* DESKTOP: single cream card with 5 columns (unchanged) */}
-      <div className="hidden rounded-3xl bg-cream px-10 py-10 shadow-2xl shadow-black/40 lg:block">
+      <div className="hidden rounded-3xl bg-cream px-10 py-10 shadow-[0_24px_60px_-18px_rgba(11,13,18,0.45)] ring-1 ring-black/5 lg:block">
         <div className="grid grid-cols-5">
           {STATS.map(({ Icon, value, label }, i) => {
             const isText = isNaN(parseInt(value.replace('+', '')));

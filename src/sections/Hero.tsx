@@ -90,22 +90,22 @@ export default function Hero() {
       </div>
 
       {/* DESKTOP content — left-positioned, dark text on sky */}
-      <div className="relative z-10 mx-auto hidden min-h-[820px] max-w-[1500px] justify-end px-5 pt-40 lg:flex lg:px-10 lg:pt-[170px]">
-        <div className="w-full max-w-[520px] text-right">
-          <h1 className="font-cairo text-5xl font-extrabold leading-[1.1] text-ink lg:text-[60px] lg:leading-[1.1]">
+      <div className="relative z-10 mx-auto hidden min-h-[820px] max-w-[1500px] flex-col justify-center px-5 pb-24 lg:flex lg:items-end lg:px-10">
+        <div className="w-full max-w-[540px] text-right">
+          <h1 className="font-cairo text-5xl font-extrabold tracking-tight text-ink lg:text-[60px] lg:leading-[1.14]">
             <span className="block whitespace-nowrap">شريكك في</span>
-            <span className="mt-3 block whitespace-nowrap bg-gradient-to-l from-gold to-gold-light bg-clip-text text-transparent">
+            <span className="mt-3 block whitespace-nowrap bg-gradient-to-l from-gold to-gold-light bg-clip-text pb-1 text-transparent">
               النجاح العقاري
             </span>
           </h1>
 
-          <p className="mt-8 text-[16px] leading-[1.9] text-ink/85 lg:text-[17px]">
+          <p className="mt-10 text-[17px] font-medium leading-[2] text-ink/90 lg:text-[18px]">
             تسويق عقاري، إدارة أملاك، تصميم وإشراف هندسي
             <br />
             بمعايير احترافية
           </p>
 
-          <div className="mt-10 flex flex-wrap-reverse items-center justify-end gap-4">
+          <div className="mt-12 flex flex-wrap-reverse items-center justify-end gap-4">
             <a
               href="#offers"
               className="inline-flex items-center gap-2 rounded-full border border-ink/70 px-7 py-3.5 text-[14px] font-semibold text-ink transition hover:bg-ink/5"
