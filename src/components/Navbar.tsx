@@ -8,8 +8,8 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'الرئيسية', href: '#home' },
   { label: 'من نحن', href: '#about' },
   { label: 'خدماتنا', href: '#services' },
-  { label: 'مشاريعنا', href: '#offers' },
   { label: 'العروض', href: '#offers' },
+  { label: 'وظائفنا', href: '#careers' },
   { label: 'تواصل معنا', href: '#contact' },
 ];
 

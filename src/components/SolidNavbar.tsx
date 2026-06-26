@@ -8,15 +8,15 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'الرئيسية', href: '#home' },
   { label: 'من نحن', href: '#about' },
   { label: 'خدماتنا', href: '#services' },
-  { label: 'مشاريعنا', href: '#offers' },
   { label: 'العروض', href: '#offers' },
+  { label: 'وظائفنا', href: '#careers' },
   { label: 'تواصل معنا', href: '#contact' },
 ];
 
 const CTA_HREF = WHATSAPP_HREF;
 
 type Props = {
-  active: 'home' | 'about' | 'services' | 'offers' | 'contact';
+  active: 'home' | 'about' | 'services' | 'offers' | 'careers' | 'contact';
 };
 
 export default function SolidNavbar({ active }: Props) {
