@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://towenx.art
+Sitemap: https://towenx.art/sitemap.xml
